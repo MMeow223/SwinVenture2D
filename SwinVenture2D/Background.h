@@ -14,13 +14,12 @@ private:
 	queue<BackgroundLayer*> layer_three_queue;
 	queue<BackgroundLayer*> layer_four_queue;
 	bool autoloop = false;
-	float move_distance = 0.1;
+	float move_distance = 20;
 public:
 	Background();
 	~Background();
 
 	//getter
-	//BackgroundLayer* getLayer(int i) { return this->layers[i]; }
 	queue<BackgroundLayer*> getLayerOneQueue() { return this->layer_one_queue; }
 	queue<BackgroundLayer*> getLayerTwoQueue() { return this->layer_two_queue; }
 	queue<BackgroundLayer*> getLayerThreeQueue() { return this->layer_three_queue; }

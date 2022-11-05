@@ -62,6 +62,11 @@ MainMenu::~MainMenu()
 {
 }
 
+void MainMenu::reset()
+{
+	this->list = this->list->getStart();
+}
+
 void MainMenu::update()
 {
 	text->setString(list->getValue().title);

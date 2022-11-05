@@ -39,17 +39,14 @@ void Entity::fall()
 	if (velocity < terminalSpeed) {
 		velocity *= gravity;
 	}
-	cout << velocity << endl;
 	if (position.y < 567 - size.y) {
 		position.y += velocity;
 	}
 	else {
-		// when on the ground reset the velocity
 		velocity = initVelocity;
+		position.y = 567 - size.y;
 		isJump = false;
-		//isFall = false;
 	}
-	//}
 }
 
 void Entity::jump()
@@ -62,43 +59,29 @@ void Entity::jump()
 		velocity = initVelocity;
 	}
 	if (isJump) {
-		if (position.y >= 567 - size.y * 1.5) {
+		if (position.y >= 567 - size.y - jump_height_limit) {
 			position.y -= terminalSpeed - velocity;
-			//cout << "Jumping" << endl;
 		}
 		else {
 			isJump = false;
-			//isFall = true;
 		}
 	}
 	
 }
 
+bool Entity::onGround()
+{
+	return position.y == 567 - size.y;
+}
+
 void Entity::update()
 {
-	// gradually increase the gravity
-	//if (velocity < 30) {
-	//	velocity *= gravity;
-	//}
-	//else {
-	//	velocity = initVelocity;
-	//}
-	//cout << velocity << endl;
-
-	//if (position.y < 567 - 150) {
-	//	position.y += velocity;
-	//}
-
-	//jump();
 	if (isJump) {
 		jump();
 	}
 	else {
 		fall();
 	}
-	//if (!isJump) fall();
-	//if (isJump) jump();
-	//jump();
 	sprite.setPosition(position);
 }
 

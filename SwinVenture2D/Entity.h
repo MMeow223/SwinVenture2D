@@ -14,6 +14,7 @@ protected:
 	sf::Texture texture;
 	sf::Sprite sprite;
 	
+	float jump_height_limit = 300;
 	float initVelocity = 1;
 	float velocity = initVelocity;
 	float gravity = 1.08;
@@ -51,9 +52,9 @@ public:
 	void setGravity(float gravity) { this->gravity = gravity; }
 	
 	void fall();
-	
 	void jump();
-
+	bool onGround();
+	
 	void update();
 	void render();
 

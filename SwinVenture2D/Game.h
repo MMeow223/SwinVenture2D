@@ -7,17 +7,21 @@
 #include "CircularDoublyLinkedList.h"
 #include "Scene.h"
 #include "MainMenu.h"
+#include "Entity.h"
 using namespace std;
 class Game : public Scene
 {
 private:
 	MainMenu* mainMenu;
 	Background* background;
-	float init_move_distance = 0.1;
-	float move_distance = 0.1;
+	float init_move_distance = 3;
+	float move_distance = init_move_distance;
 	queue<BackgroundLayer*> queue_list[4];
+	Entity* player;
+	sf::Sprite dangerSprite;
+	sf::Texture dangerTexture;
 	
-	
+
 	bool showMainMenu = true;
 	bool showBackground = true;
 	bool backgroundLoop = true;
@@ -35,6 +39,7 @@ public:
 	//setter
 	//void setMoveDistance(float move_distance) { this->move_distance = move_distance; }
 
+	void gameOverCheck();
 	void handle_event();
 	void update();
 	void clean();
