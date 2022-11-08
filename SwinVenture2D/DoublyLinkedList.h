@@ -2,89 +2,56 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "LinkedList.h"
 using namespace std;
 struct Content {
-	int number;
 	string title;
+	int number;
 };
 template <class DataType>
 class DoublyLinkedList
 {
 public:
-	typedef DoublyLinkedList<DataType> Node;
+	typedef LinkedList<DataType>* Node;
 
-protected:
-	DataType fValue;
-	Node* fNext;
-	Node* fPrevious;
+private:
+	LinkedList<DataType>* list;
+	int size = 0;
 
 public:
-	static Node NIL;
+	//static Node NIL;
 	// Constructor
 	DoublyLinkedList()
 	{
-		fValue = DataType();
-		fNext = &NIL;
-		fPrevious = &NIL;
+		list = new LinkedList<DataType>();
+		size++;
 	}
-	DoublyLinkedList(string contentTitle, int contentNumber)
+	DoublyLinkedList(DataType value)
 	{
-		Content newValue;
-		newValue.title = contentTitle;
-		newValue.number = contentNumber;
-
-		fValue = newValue;
-		fNext = &NIL;
-		fPrevious = &NIL;
+		list = new LinkedList<DataType>(value);
+		size++;
 	}
-	void prepend(string contentTitle, int contentNumber)
+	//void prepend(DataType value)
+	//{
+	//	list->prepend(value);
+	//}
+	void append(DataType value)
 	{
-		DoublyLinkedList* newNode = new DoublyLinkedList(contentTitle, contentNumber);
-		newNode->fNext = this;
-		newNode->fPrevious = this->fPrevious;
-		this->fPrevious->fNext = newNode;
-		this->fPrevious = newNode;
-	}
-	void append(string contentTitle, int contentNumber)
-	{
-		DoublyLinkedList* newNode = new DoublyLinkedList(contentTitle, contentNumber);
-		newNode->fNext = this->fNext;
-		newNode->fPrevious = this;
-		this->fNext->fPrevious = newNode;
-		this->fNext = newNode;
-	}
-	void remove()
-	{
-		if (fNext == &NIL)
-		{
-			fPrevious->fNext = &NIL;
-		}
-		else if (fPrevious == &NIL)
-		{
-			fNext->fPrevious = &NIL;
-		}
-		else
-		{
-			fPrevious->fNext = fNext;	  // previous->next
-			fNext->fPrevious = fPrevious; // previous<-next
-		}
-	}
-	void setValue(string newSkillName, int newLevel)
-	{
-		fValue.name = newSkillName;
-		fValue.contentNumber = newLevel;
+		list->append(value);
+		size++;
 	}
 	// getters
-	DataType getValue() {
-		return fValue;
+	LinkedList<DataType>* getList() {
+		return list;
 	};
-	Node* getNext() {
-		return fNext;
+	//setter
+	void setList(LinkedList<DataType>* list) {
+		this->list = list;
 	};
-	Node* getPrevious() {
-		return fPrevious;
+	int getSize() {
+		return size;
 	};
 };
 
-template <class DataType>
-DoublyLinkedList<DataType> DoublyLinkedList<DataType>::NIL;
+//template <class DataType>
+//LinkedList<DataType> LinkedList<DataType>::NIL;

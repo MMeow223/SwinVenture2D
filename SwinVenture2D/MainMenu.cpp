@@ -3,18 +3,20 @@
 MainMenu::MainMenu()
 {
 	cout << "MainMenu init" << endl;
+	sceneID = "scene_main_menu";
+	
 	//window = new sf::RenderWindow(sf::VideoMode(1080, 720), "SwinVenture2D - Main Menu");
 	//window->setFramerateLimit(60);
 	//window->setKeyRepeatEnabled(false);
-	list = new CircularDoublyLinkedList<Content>("->Start Game\nQuick Introduction\nAbout this game\nExit", 1);
-	list->append("Start Game\nQuick Introduction\nAbout this game\n->Exit", 4);
-	list->append("Start Game\nQuick Introduction\n->About this game\nExit", 3);
-	list->append("Start Game\n->Quick Introduction\nAbout this game\nExit", 2);
+	list = new CircularDoublyLinkedList<Content>("->Start/Resume Game\nQuick Introduction\nAbout this game\nExit", 1);
+	list->append("Start/Resume Game\nQuick Introduction\nAbout this game\n->Exit", 4);
+	list->append("Start/Resume Game\nQuick Introduction\n->About this game\nExit", 3);
+	list->append("Start/Resume Game\n->Quick Introduction\nAbout this game\nExit", 2);
 
 	font.loadFromFile("./res/font/Symtext.ttf");
 
 	text->setFont(font);
-	text->setString("Start Game\nQuick Introduction\nAbout this game\nExit");
+	text->setString("Start/Resume Game\nQuick Introduction\nAbout this game\nExit");
 	text->setCharacterSize(24);
 	text->setFillColor(sf::Color::White);
 	text->setPosition(540 - text->getLocalBounds().width / 2, 360 - text->getLocalBounds().height / 2 + 20);
@@ -33,16 +35,17 @@ MainMenu::MainMenu()
 MainMenu::MainMenu(sf::RenderWindow* window)
 {
 	cout << "MainMenu init" << endl;
+	sceneID = "scene_main_menu";
 	this->window = window;
-	list = new CircularDoublyLinkedList<Content>("->Start Game\nQuick Introduction\nAbout this game\nExit", 1);
-	list->append("Start Game\nQuick Introduction\nAbout this game\n->Exit", 4);
-	list->append("Start Game\nQuick Introduction\n->About this game\nExit", 3);
-	list->append("Start Game\n->Quick Introduction\nAbout this game\nExit", 2);
+	list = new CircularDoublyLinkedList<Content>("->Start/Resume Game\nQuick Introduction\nAbout this game\nExit", 1);
+	list->append("Start/Resume Game\nQuick Introduction\nAbout this game\n->Exit", 4);
+	list->append("Start/Resume Game\nQuick Introduction\n->About this game\nExit", 3);
+	list->append("Start/Resume Game\n->Quick Introduction\nAbout this game\nExit", 2);
 
 	font.loadFromFile("./res/font/Symtext.ttf");
 	text = new sf::Text();
 	text->setFont(font);
-	text->setString("Start Game\nQuick Introduction\nAbout this game\nExit");
+	text->setString("Start/Resume Game\nQuick Introduction\nAbout this game\nExit");
 	text->setCharacterSize(24);
 	text->setFillColor(sf::Color::White);
 	text->setPosition(540 - text->getLocalBounds().width / 2, 360 - text->getLocalBounds().height / 2 + 20);

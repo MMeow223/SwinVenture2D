@@ -3,8 +3,11 @@
 Game::Game()
 {
 	cout << "Game init" << endl;
+	sceneID = "scene_game";
 
 	mainMenu = new MainMenu(window);
+	gameBackgroundScene = new GameBackgroundScene(window);
+	gameIntroScene = new GameIntroScene(window);
 	background = new Background();
 	player =  new Entity(window);
 	queue_list[0] = background->getLayerOneQueue();
@@ -37,15 +40,25 @@ Game::Game()
 	//weapon = new Weapon(window, sf::Vector2f(player->getPosition().x, player->getPosition().y));
 	enemy = createEnemy();
 	
+
+	gameIntroBook = new Book(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/bookcover.png");
+	sceneStack.push(mainMenu);
+
+	clock = new sf::Clock();
+
+	
 }
 
 Game::Game(sf::RenderWindow* window)
 {
 	cout << "Game init" << endl;
+	sceneID = "scene_game";
 	this->window = window;
 	this->window->setFramerateLimit(60);
 	this->window->setKeyRepeatEnabled(false);
 	mainMenu = new MainMenu(this->window);
+	gameBackgroundScene = new GameBackgroundScene(window);
+	gameIntroScene = new GameIntroScene(window);
 	background = new Background();
 	player = new Entity(window);
 	queue_list[0] = background->getLayerOneQueue();
@@ -73,7 +86,19 @@ Game::Game(sf::RenderWindow* window)
 	weapon = nullptr;
 
 	//weapon = new Weapon(window, sf::Vector2f(player->getPosition().x, player->getPosition().y));
-		enemy = createEnemy();
+	enemy = createEnemy();
+
+	gameIntroBook = new Book(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/bookcover.png");
+	sceneStack.push(mainMenu);
+	clock = new sf::Clock();
+	accumulatedTime = 0;
+
+	font.loadFromFile("./res/font/Symtext.ttf");
+	clockText.setFont(font);
+	clockText.setCharacterSize(24);
+	clockText.setFillColor(sf::Color::White);
+	clockText.setString(to_string((int)accumulatedTime));
+	
 
 }
 
@@ -110,16 +135,20 @@ Enemy* Game::createEnemy()
 	switch (randomNumber(rng))
 	{
 	case 1:
-		temp = "Bro, can you let me peek ur assignment or not?";
+		temp = "I am enemy 1";
+		//temp = "Bro, can you let me peek ur assignment or not?";
 		break;
 	case 2:
-		temp = "You team leader leh. You should help me or u also fail oh.";
+		temp = "I am enemy 2";
+		//temp = "You team leader leh. You should help me or u also fail oh.";
 		break;
 	case 3:
-		temp = "How to do this ah? Can you guide me?";
+		temp = "I am enemy 3";
+		//temp = "How to do this ah? Can you guide me?";
 		break;
 	case 4:
-		temp = "What is this? I don't understand. Can you explain again?";
+		temp = "I am enemy 4";
+		//temp = "What is this? I don't understand. Can you explain again?";
 		break;
 	default:
 		break;
@@ -138,7 +167,7 @@ void Game::handle_event()
 			window->close();
 
 		// only input from menu
-		else if (event.type == sf::Event::KeyPressed && showMainMenu) {
+		else if (event.type == sf::Event::KeyPressed && pause) {
 			if (event.key.code == sf::Keyboard::Down) {
 				mainMenu->setList(mainMenu->getList()->getNext());
 			}
@@ -147,14 +176,52 @@ void Game::handle_event()
 			}
 			if (event.key.code == sf::Keyboard::Enter) {
 				enterPressed = true;
+				pause = true;
+				
 			}
+			if (event.key.code == sf::Keyboard::Left) {
+				if (sceneStack.top()->getSceneID() != "scene_main_menu") {
+					sceneStack.top()->getBook()->previousPage();
+				}
+
+			}
+			if (event.key.code == sf::Keyboard::Right) {
+				if (sceneStack.top()->getSceneID() != "scene_main_menu") {
+					sceneStack.top()->getBook()->nextPage();
+				}
+			}
+			if (event.key.code == sf::Keyboard::Escape) {
+				if (!sceneStack.empty()) {
+					sceneStack.pop();
+					pause = false;
+				}
+				else {
+					//if (sceneStack.top()->getSceneID() != "scene_main_menu") {
+					sceneStack.push(mainMenu);
+					pause = true;
+					//}
+				}
+				//mainMenu->reset();
+			}
+
 		}
 		// input from any screen
 		else if (event.type == sf::Event::KeyPressed) {
 			if (event.key.code == sf::Keyboard::Escape) {
-				cout << "Exist";
-				gameStart = false;
-				showMainMenu = true;
+				if (!sceneStack.empty()) {
+					sceneStack.pop();
+					pause = false;
+				}
+				else {
+					//if (sceneStack.top()->getSceneID() != "scene_main_menu") {
+					sceneStack.push(mainMenu);
+					pause = true;
+					//}
+				}
+				//stack.pop();
+				//cout << "Exist";
+				//gameStart = false;
+				//showMainMenu = true;
 				//move_distance = init_move_distance;
 				mainMenu->reset();
 			}
@@ -204,7 +271,8 @@ void Game::handle_event()
 	}
 
 	// only keys that need continuous input here
-	if (gameStart) {
+	//if (gameStart) {
+	if (!pause) {
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			// move player until middle of screen
@@ -257,8 +325,18 @@ void Game::handle_event()
 
 void Game::update()
 {
-
 	
+	if (pause) {
+		accumulatedTime += (int)clock->getElapsedTime().asSeconds();
+		clock->restart();
+		clockText.setString("Time [pause]: " + to_string((int)(accumulatedTime + (int)clock->getElapsedTime().asSeconds())));
+	}
+	else {
+		clockText.setString("Time: " + to_string((int)(accumulatedTime + (int)clock->getElapsedTime().asSeconds())));
+	}
+	
+	clockText.setPosition(1080 - clockText.getLocalBounds().width - 10, 10);
+
 	if (player->getPosition().x < enemy->getPosition().x + enemy->getSize().x &&
 		player->getPosition().x  > enemy->getPosition().x
 		&& player->getPosition().y + player->getSize().y > enemy->getPosition().y
@@ -343,10 +421,12 @@ void Game::update()
 		cout << "Game Over" << endl;
 	}
 	
-	if (gameStart) player->update();
+	if (!pause) player->update();
+	//if (gameStart) player->update();
 
-	showMainMenu = !gameStart;
-	if (gameStart && move_distance > 0) {
+	//showMainMenu = !gameStart;
+	if (!pause && move_distance > 0) {
+	//if (gameStart && move_distance > 0) {
 		move_distance -= 0.1;
 		if (move_distance <0) move_distance = 0;
 		//cout << move_distance <<endl;
@@ -356,15 +436,38 @@ void Game::update()
 	
 	mainMenu->update();
 	
-	if (enterPressed && showMainMenu) {
+	pause = !sceneStack.empty();
+		
+	if (enterPressed) {
+		//if (enterPressed && showMainMenu) {
 		switch (mainMenu->getList()->getValue().number)
 		{
 		case 1: 
-			gameStart = true;
+			//gameStart = true;
+			if (!sceneStack.empty()) {
+				if (sceneStack.top()->getSceneID() == "scene_main_menu") {
+					sceneStack.pop();
+				}
+				else {
+					//if (sceneStack.top()->getSceneID() != "scene_main_menu") {
+					sceneStack.push(mainMenu);
+					//pause = true;
+					//}
+				}
+			}
+			
 			break;
 		case 2:
+			if (sceneStack.top()->getSceneID() == "scene_main_menu") {
+				sceneStack.push(gameIntroScene);
+			}
+			//pause = true;
+			//showGameIntroBook = true;
 			break;
 		case 3:
+			if (sceneStack.top()->getSceneID() == "scene_main_menu") {
+				sceneStack.push(gameBackgroundScene);
+			}
 			break;
 		case 4:
 			window->close();
@@ -391,17 +494,22 @@ void Game::render()
 {
 	// need to extract this to somewhere
 
-	
-	
 	if (showBackground) background->render(window);
-	if (showMainMenu) mainMenu->render();
-	if (gameStart) player->render();
+	//if (showMainMenu) mainMenu->render();
+	//if (gameStart)
+	if (!pause)
+	{
+		player->render();
+		enemy->render();
+		window->draw(dangerSprite);
+		window->draw(maxHpBar);
+		window->draw(hpBar);
+	}
 	if (showKeyReference) window->draw(keyReferenceSprite);
-
-	window->draw(maxHpBar);
-	window->draw(hpBar);
-	enemy->render();
-	window->draw(dangerSprite);
 	if (weapon != nullptr) weapon->render();
-
+	if (!sceneStack.empty()) sceneStack.top()->render();
+	window->draw(clockText);
+	//if (showGameIntroBook) gameIntroBook->render();
+	//currentPage->getValue()->render();
+	//currentPage->getNext()->getValue()->render();
 }

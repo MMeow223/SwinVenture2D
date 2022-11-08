@@ -30,9 +30,9 @@ public:
 	//setter
 	void setList(CircularDoublyLinkedList<Content>* list) { this->list = list; }
 	void reset();
-	void update();
+	void update() override;
 	void clean();
-	void render();
+	void render() override;
 
 };
 
