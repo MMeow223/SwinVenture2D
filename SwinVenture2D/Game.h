@@ -18,43 +18,49 @@
 #include "Book.h"
 #include "GameIntroScene.h"
 #include "GameBackgroundScene.h"
+#include "Stack.h"
 using namespace std;
 class Game : public Scene
 {
 private:
+	// scenes
+	Stack<Scene*> sceneStack;
 	MainMenu* mainMenu;
 	GameBackgroundScene* gameBackgroundScene;
 	GameIntroScene* gameIntroScene;
+
+	// background
+	Queue<BackgroundLayer*> queue_list[4];
 	Background* background;
 	float init_move_distance = 1.5;
 	float move_distance = init_move_distance;
-	queue<BackgroundLayer*> queue_list[4];
-	Entity* player;
+	
+	// sprites & textures
 	sf::Sprite dangerSprite;
 	sf::Texture dangerTexture;
 	sf::Sprite keyReferenceSprite;
 	sf::Texture keyReferenceTexture;
 
+	// shapes
 	sf::RectangleShape hpBar;
 	sf::RectangleShape maxHpBar;
 	
+	// font and text
 	sf::Font font;
 	sf::Text clockText;
-	
-	//Weapon* weapon;
-	queue<Weapon*> weaponQueue;
-	Weapon* weapon;
+
+	// game objects
+	Entity* player;
 	Enemy* enemy;
+	Weapon* weapon;
 	stack<Star*> starStack;
-	//DoublyLinkedList<Page*> gameIntroPages;
-	//DoublyLinkedList<Page*>* currentPage;
 	Book* gameIntroBook;
-	stack<Scene*> sceneStack;
 	
+	// clock and time
 	sf::Clock* clock;
 	float accumulatedTime;
 	
-
+	// game state
 	bool showMainMenu = true;
 	bool showBackground = true;
 	bool backgroundLoop = true;
@@ -63,6 +69,7 @@ private:
 	bool showKeyReference = true;
 	bool showGameIntroBook = false;
 	bool pause = true;
+	
 public:
 	Game();
 	Game(sf::RenderWindow* window);

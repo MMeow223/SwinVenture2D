@@ -42,7 +42,8 @@ Game::Game()
 	
 
 	gameIntroBook = new Book(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/bookcover.png");
-	sceneStack.push(mainMenu);
+	sceneStack = Stack<Scene*>(mainMenu);
+	//sceneStack.push(mainMenu);
 
 	clock = new sf::Clock();
 
@@ -89,7 +90,8 @@ Game::Game(sf::RenderWindow* window)
 	enemy = createEnemy();
 
 	gameIntroBook = new Book(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/bookcover.png");
-	sceneStack.push(mainMenu);
+	//sceneStack.push(mainMenu);
+	sceneStack = Stack<Scene*>(mainMenu);
 	clock = new sf::Clock();
 	accumulatedTime = 0;
 

@@ -167,6 +167,7 @@
     <ClInclude Include="Page.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="StarContainer.h" />
     <ClInclude Include="Weapon.h" />

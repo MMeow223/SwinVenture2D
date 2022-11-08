@@ -3,14 +3,17 @@
 Background::Background()
 {
 	cout << "Background init" << endl;
-
-	layer_one_queue.push(new BackgroundLayer("./res/images/background-layer1.png", 1, sf::Vector2f(0.0f, 0.f)));
+	
+	layer_one_queue = Queue<BackgroundLayer*>(new BackgroundLayer("./res/images/background-layer1.png", 1, sf::Vector2f(0.0f, 0.f)));
 	layer_one_queue.push(new BackgroundLayer("./res/images/background-layer1.png", 1, sf::Vector2f(2160, 0.f)));
-	layer_two_queue.push(new BackgroundLayer("./res/images/background-layer2.png", 1.3, sf::Vector2f(0.f, 0.f)));
+	
+	layer_two_queue = Queue<BackgroundLayer*>(new BackgroundLayer("./res/images/background-layer2.png", 1.3, sf::Vector2f(0.f, 0.f)));
 	layer_two_queue.push(new BackgroundLayer("./res/images/background-layer2.png", 1.3, sf::Vector2f(2160, 0.f)));
-	layer_three_queue.push(new BackgroundLayer("./res/images/background-layer3.png", 1.7, sf::Vector2f(0.f, 0.f)));
+	
+	layer_three_queue = Queue<BackgroundLayer*>(new BackgroundLayer("./res/images/background-layer3.png", 1.7, sf::Vector2f(0.f, 0.f)));
 	layer_three_queue.push(new BackgroundLayer("./res/images/background-layer3.png", 1.7, sf::Vector2f(2160, 0.f)));
-	layer_four_queue.push(new BackgroundLayer("./res/images/background-layer4.png", 2.5, sf::Vector2f(0.f, 0.f)));
+	
+	layer_four_queue = Queue<BackgroundLayer*>(new BackgroundLayer("./res/images/background-layer4.png", 2.5, sf::Vector2f(0.f, 0.f)));
 	layer_four_queue.push(new BackgroundLayer("./res/images/background-layer4.png", 2.5, sf::Vector2f(2160, 0.f)));
 
 }

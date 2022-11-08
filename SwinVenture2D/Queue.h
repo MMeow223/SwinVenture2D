@@ -9,22 +9,22 @@ template <class DataType>
 
 class Queue{
 private:
-	LinkedList<DataType*>* queue;
-	DataType* front_value;
-	DataType* back_value;
+	LinkedList<DataType>* queue;
+	DataType front_value;
+	DataType back_value;
 	int size = 0;
 	
 public:
 	Queue() {
 		
-		queue = new LinkedList<DataType*>();
+		queue = new LinkedList<DataType>();
 		front_value = queue->getValue();
 		back_value = queue->getValue();
 		size++;
 	};
-	Queue(DataType* value) {
+	Queue(DataType value) {
 
-		queue = new LinkedList<DataType*>(value);
+		queue = new LinkedList<DataType>(value);
 		front_value = queue->getValue();
 		back_value = queue->getValue();
 		size++;
@@ -32,19 +32,22 @@ public:
 	
 	~Queue() {
 	};
-	void push(DataType* value) {
+	void push(DataType value) {
 		// add at the back
-		if (queue == &LinkedList<DataType*>::NIL) {
-			queue = new LinkedList<DataType*>(value);
+		if (queue == &LinkedList<DataType>::NIL) {
+			queue = new LinkedList<DataType>(value);
 			front_value = queue->getValue();
 			back_value = queue->getValue();
 		}
-		for (LinkedList<DataType*>* i = queue; i != &LinkedList<DataType*>::NIL; i = i->getNext()) {
-			if (i->getNext() == &LinkedList<DataType*>::NIL) {
-				i->append(value);
-				back_value = value;
-				size++;
-				break;
+		else {
+			
+			for (LinkedList<DataType>* i = queue; i != &LinkedList<DataType>::NIL; i = i->getNext()) {
+				if (i->getNext() == &LinkedList<DataType>::NIL) {
+					i->append(value);
+					back_value = value;
+					size++;
+					break;
+				}
 			}
 		}
 	};
@@ -52,12 +55,12 @@ public:
 	{
 		if (size == 1) {
 			//delete queue;
-			queue = &LinkedList<DataType*>::NIL;
-			front_value = nullptr;
-			back_value = nullptr;
+			queue = &LinkedList<DataType>::NIL;
+			front_value = NULL;
+			back_value = NULL;
 		}
 		else {
-			LinkedList<DataType*>* temp = queue->getNext();
+			LinkedList<DataType>* temp = queue->getNext();
 			front_value = temp->getValue();
 			//temp = queue->getNext();
 			queue->remove();
@@ -66,27 +69,25 @@ public:
 		}
 			size--;
 	};
-	bool isEmpty() {
+	bool empty() {
 		return size == 0;
 	};
 	int getSize() {
 		return size;
 	}
-	DataType* front() {
-		if (front_value == nullptr) {
-			
+	DataType front() {
+		if (front_value == NULL) {
 			cout << "Error: front is null, returning default" << endl;
-			return new DataType();
+			return DataType();
 		}
 		else
 			return front_value;
 		//return front_value;
 	};
-	DataType* back() {
-		if (back_value == nullptr) {
-			
+	DataType back() {
+		if (back_value == NULL) {
 			cout << "Error: back is null, returning default" << endl;
-			return new DataType();
+			return DataType();
 		}
 		else
 			return back_value;

@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <queue>
+//#include <queue>
+#include "Queue.h"
 #include "SFML/Graphics.hpp"
 #include "BackgroundLayer.h"
 using namespace std;
@@ -9,10 +10,10 @@ using namespace std;
 class Background
 {
 private:
-	queue<BackgroundLayer*> layer_one_queue;
-	queue<BackgroundLayer*> layer_two_queue;
-	queue<BackgroundLayer*> layer_three_queue;
-	queue<BackgroundLayer*> layer_four_queue;
+	Queue<BackgroundLayer*> layer_one_queue;
+	Queue<BackgroundLayer*> layer_two_queue;
+	Queue<BackgroundLayer*> layer_three_queue;
+	Queue<BackgroundLayer*> layer_four_queue;
 	bool autoloop = false;
 	float move_distance = 20;
 public:
@@ -20,10 +21,10 @@ public:
 	~Background();
 
 	//getter
-	queue<BackgroundLayer*> getLayerOneQueue() { return this->layer_one_queue; }
-	queue<BackgroundLayer*> getLayerTwoQueue() { return this->layer_two_queue; }
-	queue<BackgroundLayer*> getLayerThreeQueue() { return this->layer_three_queue; }
-	queue<BackgroundLayer*> getLayerFourQueue() { return this->layer_four_queue; }
+	Queue<BackgroundLayer*> getLayerOneQueue() { return this->layer_one_queue; }
+	Queue<BackgroundLayer*> getLayerTwoQueue() { return this->layer_two_queue; }
+	Queue<BackgroundLayer*> getLayerThreeQueue() { return this->layer_three_queue; }
+	Queue<BackgroundLayer*> getLayerFourQueue() { return this->layer_four_queue; }
 	bool getAutoloop() { return this->autoloop; }
 	float getMoveDistance() { return this->move_distance; }
 
