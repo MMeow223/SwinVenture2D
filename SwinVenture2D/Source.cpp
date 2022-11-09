@@ -16,6 +16,7 @@
 #include "GameIntroScene.h"
 #include "Queue.h"
 #include "Stack.h"
+#include "StarContainer.h"
 using namespace std;
 int main() {
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1080, 720), "SwinVenture2D");
@@ -25,52 +26,38 @@ int main() {
 	float move_distance = 0;
 	Game game = Game(window);
 
-	Stack<int> stack = Stack<int>(11);
-	cout << "Front: " << stack.top() << "| Back: " << stack.bottom() << "| Size: " << stack.getSize() << endl;
-	stack.push(22);
-	cout << "Front: " << stack.top() << "| Back: " << stack.bottom() << "| Size: " << stack.getSize() << endl;
-	stack.push(33);
-	cout << "Front: " << stack.top() << "| Back: " << stack.bottom() << "| Size: " << stack.getSize() << endl;
-	stack.push(44);
-	cout << "Front: " << stack.top() << "| Back: " << stack.bottom() << "| Size: " << stack.getSize() << endl;
-	stack.pop();
-	cout << "Front: " << stack.top() << "| Back: " << stack.bottom() << "| Size: " << stack.getSize() << endl;
-	stack.pop();
-	cout << "Front: " << stack.top() << "| Back: " << stack.bottom() << "| Size: " << stack.getSize() << endl;
-	stack.pop();
-	cout << "Front: " << stack.top() << "| Back: " << stack.bottom() << "| Size: " << stack.getSize() << endl;
-	stack.pop();
-	cout << "Front: " << stack.top() << "| Back: " << stack.bottom() << "| Size: " << stack.getSize() << endl;
-
+	/*StarContainer* starContainer = new StarContainer(
+		window,
+		sf::Vector2f(0, 0),
+		sf::Vector2f(1080, 720),
+		0,
+		0,
+		"star.png",
+		new Star(window, sf::Vector2f(1, 1), sf::Vector2f(10, 10), 1, 2, "star.png"));*/
 	
-	//Queue<int*> queue(new int(1));
-	//cout << "Front: " << *queue.front() << "| Back: " << *queue.back() << "| Size: " << queue.getSize() << endl;
-	//queue.push(new int(2));
-	//cout << "Front: " << *queue.front() << "| Back: " << *queue.back() << "| Size: " << queue.getSize() << endl;
-	//queue.push(new int(3));
-	//cout << "Front: " << *queue.front() << "| Back: " << *queue.back() << "| Size: " << queue.getSize() << endl;
-	//queue.push(new int(4));
-	//cout << "Front: " << *queue.front() << "| Back: " << *queue.back() << "| Size: " << queue.getSize() << endl;
-	//queue.pop();
-	//cout << "Front: " << *queue.front() << "| Back: " << *queue.back() << "| Size: " << queue.getSize() << endl;
-	//queue.pop();
-	//cout << "Front: " << *queue.front() << "| Back: " << *queue.back() << "| Size: " << queue.getSize() << endl;
-	//queue.pop();
-	//cout << "Front: " << *queue.front() << "| Back: " << *queue.back() << "| Size: " << queue.getSize() << endl;
-	//queue.pop();
-	//cout << queue.getSize() << endl;
-	//cout << "Front: " << *queue.front() << "| Back: " << *queue.back() << "| Size: " << queue.getSize() << endl;
+	/*starContainer->insertStar(new Star(window, sf::Vector2f(2, 1), sf::Vector2f(10, 10), 1, 2, "star.png"));
+	starContainer->insertStar(new Star(window, sf::Vector2f(3, 1), sf::Vector2f(10, 10), 1, 2, "star.png"));
+	starContainer->insertStar(new Star(window, sf::Vector2f(4, 1), sf::Vector2f(10, 10), 1, 2, "star.png"));
+	cout << starContainer->getStar()->getPosition().x << endl;
+	starContainer->dropStar();
+	cout << starContainer->getStar()->getPosition().x << endl;
+	starContainer->dropStar();
+	cout << starContainer->getStar()->getPosition().x << endl;
+	starContainer->dropStar();
+	cout << starContainer->getStar()->getPosition().x << endl;*/
+
+
 
 	while (window->isOpen())
 	{
-
 		game.getBackground()->setAutoLoop(true);
 		game.handle_event();
 		game.update();
+
+
+
 		window->clear();
 		game.render();
-		
-		
 		window->display();
 	}
 	game.clean();

@@ -52,9 +52,6 @@ public:
 	float getDamage() { return damage; }
 	bool getStandOnEnemyHead() { return standOnEnemyHead; }
 	
-	
-
-	
 	//setter
 	void setWindow(sf::RenderWindow* window) { this->window = window; }
 	void setPosition(sf::Vector2f position) { this->position = position; }

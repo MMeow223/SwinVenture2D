@@ -11,7 +11,10 @@ protected:
 	string imageFilePath;
 	sf::Sprite sprite;
 	sf::Texture texture;
+	
+	sf::Vector2f init_position;
 	sf::Vector2f position;
+	sf::Vector2f init_size;
 	sf::Vector2f size;
 	float initVelocity;
 	float velocity;
@@ -22,24 +25,24 @@ public:
 	~Object();
 	
 	//getter
-	sf::RenderWindow* getWindow() { return window; }
-	sf::Sprite getSprite() { return sprite; }
-	sf::Texture getTexture() { return texture; }
-	sf::Vector2f getPosition() { return position; }
-	sf::Vector2f getSize() { return size; }
-	float getInitVelocity() { return initVelocity; }
-	float getVelocity() { return velocity; }
+	virtual sf::RenderWindow* getWindow() { return window; }
+	virtual sf::Sprite getSprite() { return sprite; }
+	virtual sf::Texture getTexture() { return texture; }
+	virtual sf::Vector2f getPosition() { return position; }
+	virtual sf::Vector2f getSize() { return size; }
+	virtual float getInitVelocity() { return initVelocity; }
+	virtual float getVelocity() { return velocity; }
 
 	//setter
-	void setWindow(sf::RenderWindow* window) { this->window = window; }
-	void setSprite(sf::Sprite sprite) { this->sprite = sprite; }
-	void setTexture(sf::Texture texture) { this->texture = texture; }
-	void setPosition(sf::Vector2f position) { this->position = position; }
-	void setSize(sf::Vector2f size) { this->size = size; }
-	void setInitVelocity(float initVelocity) { this->initVelocity = initVelocity; }
-	void setVelocity(float velocity) { this->velocity = velocity; }
+	virtual void setWindow(sf::RenderWindow* window) { this->window = window; }
+	virtual void setSprite(sf::Sprite sprite) { this->sprite = sprite; }
+	virtual void setTexture(sf::Texture texture) { this->texture = texture; }
+	virtual void setPosition(sf::Vector2f position) { this->position = position; }
+	virtual void setSize(sf::Vector2f size) { this->size = size; }
+	virtual void setInitVelocity(float initVelocity) { this->initVelocity = initVelocity; }
+	virtual void setVelocity(float velocity) { this->velocity = velocity; }
 
-	void update();
-	void render();
+	virtual void update();
+	virtual void render();
 };
 

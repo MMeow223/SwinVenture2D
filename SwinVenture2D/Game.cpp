@@ -9,7 +9,7 @@ Game::Game()
 	gameBackgroundScene = new GameBackgroundScene(window);
 	gameIntroScene = new GameIntroScene(window);
 	background = new Background();
-	player =  new Entity(window);
+	player =  new Player(window);
 	queue_list[0] = background->getLayerOneQueue();
 	queue_list[1] = background->getLayerTwoQueue();
 	queue_list[2] = background->getLayerThreeQueue();
@@ -47,6 +47,15 @@ Game::Game()
 
 	clock = new sf::Clock();
 
+	mainMenuQuoteText.setFont(font);
+	mainMenuQuoteText.setString("Awesome!");
+	mainMenuQuoteText.setCharacterSize(40);
+	mainMenuQuoteText.setFillColor(sf::Color(255, 255, 0, textBlink));
+	mainMenuQuoteText.setOutlineColor(sf::Color(0, 0, 0, textBlink));
+
+	mainMenuQuoteText.setOutlineThickness(1);
+	mainMenuQuoteText.setPosition(750, 300);
+	mainMenuQuoteText.rotate(-30);
 	
 }
 
@@ -61,7 +70,7 @@ Game::Game(sf::RenderWindow* window)
 	gameBackgroundScene = new GameBackgroundScene(window);
 	gameIntroScene = new GameIntroScene(window);
 	background = new Background();
-	player = new Entity(window);
+	player = new Player(window);
 	queue_list[0] = background->getLayerOneQueue();
 	queue_list[1] = background->getLayerTwoQueue();
 	queue_list[2] = background->getLayerThreeQueue();
@@ -100,6 +109,16 @@ Game::Game(sf::RenderWindow* window)
 	clockText.setCharacterSize(24);
 	clockText.setFillColor(sf::Color::White);
 	clockText.setString(to_string((int)accumulatedTime));
+
+	mainMenuQuoteText.setFont(font);
+	mainMenuQuoteText.setString("Awesome!");
+	mainMenuQuoteText.setCharacterSize(40);
+	mainMenuQuoteText.setFillColor(sf::Color(255, 255, 0, textBlink));
+	mainMenuQuoteText.setOutlineColor(sf::Color(0, 0, 0, textBlink));
+
+	mainMenuQuoteText.setOutlineThickness(1);
+	mainMenuQuoteText.setPosition(750, 300);
+	mainMenuQuoteText.rotate(-30);
 	
 
 }
@@ -118,12 +137,6 @@ void Game::removeWeapon()
 			weapon = nullptr;
 		}
 	}
-	/*if (!weaponQueue.empty()) {
-		weaponQueue.front()->render();
-		if (weaponQueue.front()->getIsFinish()) {
-			weaponQueue.pop();
-		}
-	}*/
 }
 Enemy* Game::createEnemy()
 {
@@ -327,6 +340,22 @@ void Game::handle_event()
 
 void Game::update()
 {
+	if (pause) {
+		if (textBlinkUp) {
+			textBlink -= blinkspeed;
+		}
+		else {
+			textBlink += blinkspeed;
+		}
+		if (textBlink <= 0 || textBlink >= 255) {
+			textBlinkUp = !textBlinkUp;
+		}
+		mainMenuQuoteText.setFillColor(sf::Color(255, 255, 0, textBlink));
+		mainMenuQuoteText.setOutlineColor(sf::Color(0, 0, 0, textBlink));
+	}
+	
+
+
 	
 	if (pause) {
 		accumulatedTime += (int)clock->getElapsedTime().asSeconds();
@@ -397,26 +426,6 @@ void Game::update()
 
 		}
 	}
-	//if (!weaponQueue.empty()) {
-	////cout << "enemy->getPosition().x: " << enemy->getPosition().x << "weaponQueue.front()->getPosition().x: " << weaponQueue.front()->getPosition().x << endl;
-	//	if (weaponQueue.front()->getPosition().x > enemy->getPosition().x &&
-	//		weaponQueue.front()->getPosition().x < enemy->getPosition().x + enemy->getSize().x &&
-	//		weaponQueue.front()->getPosition().y + weaponQueue.front()->getSize().y > enemy->getPosition().y &&
-	//		weaponQueue.front()->getPosition().y + weaponQueue.front()->getSize().y > enemy->getPosition().y + enemy->getSize().y
-
-	//		) 
-	//	{
-	//		weaponQueue.front()->setIsFinish(true);
-	//		enemy->setHp(enemy->getHp() - weaponQueue.front()->getDamage());
-	//		cout << "Hit==================================================================" << endl;
-	//		
-	//	}
-	//	
-	//}
-	
-	//if (weaponQueue.front()->getPosition().x > ) {
-		
-	//}
 	
 	hpBar.setSize(sf::Vector2f(player->getHp()/ player->getHpMax()*300, 40));
 	if (player->getPosition().x < 0 - player->getSize().x) {
@@ -451,10 +460,7 @@ void Game::update()
 					sceneStack.pop();
 				}
 				else {
-					//if (sceneStack.top()->getSceneID() != "scene_main_menu") {
 					sceneStack.push(mainMenu);
-					//pause = true;
-					//}
 				}
 			}
 			
@@ -507,6 +513,7 @@ void Game::render()
 		window->draw(maxHpBar);
 		window->draw(hpBar);
 	}
+
 	if (showKeyReference) window->draw(keyReferenceSprite);
 	if (weapon != nullptr) weapon->render();
 	if (!sceneStack.empty()) sceneStack.top()->render();
@@ -514,4 +521,6 @@ void Game::render()
 	//if (showGameIntroBook) gameIntroBook->render();
 	//currentPage->getValue()->render();
 	//currentPage->getNext()->getValue()->render();
+	if (pause) window->draw(mainMenuQuoteText);
+	
 }

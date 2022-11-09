@@ -40,6 +40,26 @@ public:
 		list->append(value);
 		size++;
 	}
+	DoublyLinkedList<DataType>* next()
+	{
+		DoublyLinkedList<DataType>* temp = this;
+		temp->setList(temp->getList()->getNext());
+		return temp;
+	}
+	
+	DoublyLinkedList<DataType>* prev()
+	{
+		DoublyLinkedList<DataType>* temp = this;
+		temp->setList(temp->getList()->getPrevious());
+		return temp;
+	}
+	
+	void remove()
+	{
+		list->remove();
+		size--;
+	}
+	
 	// getters
 	LinkedList<DataType>* getList() {
 		return list;

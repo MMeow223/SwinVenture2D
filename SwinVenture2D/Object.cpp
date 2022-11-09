@@ -41,5 +41,6 @@ void Object::update()
 
 void Object::render()
 {
+	update();
 	window->draw(sprite);
 }

@@ -19,6 +19,7 @@
 #include "GameIntroScene.h"
 #include "GameBackgroundScene.h"
 #include "Stack.h"
+#include "Player.h"
 using namespace std;
 class Game : public Scene
 {
@@ -48,9 +49,12 @@ private:
 	// font and text
 	sf::Font font;
 	sf::Text clockText;
-
+	sf::Text mainMenuQuoteText;
+	int textBlink = 255;
+	int blinkspeed = 5;
+	
 	// game objects
-	Entity* player;
+	Player* player;
 	Enemy* enemy;
 	Weapon* weapon;
 	stack<Star*> starStack;
@@ -69,6 +73,8 @@ private:
 	bool showKeyReference = true;
 	bool showGameIntroBook = false;
 	bool pause = true;
+	bool textBlinkUp = true;
+	
 	
 public:
 	Game();
