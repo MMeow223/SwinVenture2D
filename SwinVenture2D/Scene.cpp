@@ -6,6 +6,7 @@ Scene::Scene()
 	//window = new sf::RenderWindow(sf::VideoMode(1080, 720), "SwinVenture2D - Base Scene");
 	window = nullptr;
 	sceneID = "scene_base";
+	
 }
 
 Scene::Scene(sf::RenderWindow* window)

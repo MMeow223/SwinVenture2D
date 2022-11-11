@@ -16,8 +16,8 @@ Entity::Entity()
 	hp_max = 100;
 	hp = hp_max;
 	jump_height_limit = 300;
-	initVelocity = 3;
-	velocity = initVelocity;
+	init_velocity = 3;
+	velocity = init_velocity;
 	initJumpVelocity = 1;
 	jumpVelocity = initJumpVelocity;
 	gravity = 1.08;
@@ -44,8 +44,8 @@ Entity::Entity(sf::RenderWindow* window)
 	hp_max = 100;
 	hp = hp_max;
 	jump_height_limit = 300;
-	initVelocity = 3;
-	velocity = initVelocity;
+	init_velocity = 3;
+	velocity = init_velocity;
 	initJumpVelocity = 1.7;
 	jumpVelocity = initJumpVelocity;
 	gravity = 1.08;

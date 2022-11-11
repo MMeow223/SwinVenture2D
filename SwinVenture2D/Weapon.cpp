@@ -1,6 +1,6 @@
 #include "Weapon.h"
 
-Weapon::Weapon()
+Weapon::Weapon() : Object()
 {
 	window = nullptr;
 	texture.loadFromFile("./res/images/poop.png");

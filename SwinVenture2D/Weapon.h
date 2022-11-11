@@ -10,7 +10,6 @@ private:
 	float max_distance;
 	float damage;
 	float count = 0;
-	sf::Vector2f init_position;
 
 	bool isFinish = false;
 

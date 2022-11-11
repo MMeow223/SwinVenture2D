@@ -7,16 +7,24 @@ using namespace std;
 class Object
 {
 protected:
+	// system
 	sf::RenderWindow* window;
-	string imageFilePath;
+	
+	// sprite & texture
 	sf::Sprite sprite;
 	sf::Texture texture;
+	string imageFilePath;
 	
+	// position
 	sf::Vector2f init_position;
 	sf::Vector2f position;
+	
+	// size
 	sf::Vector2f init_size;
 	sf::Vector2f size;
-	float initVelocity;
+	
+	// velocity
+	float init_velocity;
 	float velocity;
 
 public:
@@ -30,7 +38,7 @@ public:
 	virtual sf::Texture getTexture() { return texture; }
 	virtual sf::Vector2f getPosition() { return position; }
 	virtual sf::Vector2f getSize() { return size; }
-	virtual float getInitVelocity() { return initVelocity; }
+	virtual float getInitVelocity() { return init_velocity; }
 	virtual float getVelocity() { return velocity; }
 
 	//setter
@@ -39,9 +47,10 @@ public:
 	virtual void setTexture(sf::Texture texture) { this->texture = texture; }
 	virtual void setPosition(sf::Vector2f position) { this->position = position; }
 	virtual void setSize(sf::Vector2f size) { this->size = size; }
-	virtual void setInitVelocity(float initVelocity) { this->initVelocity = initVelocity; }
+	virtual void setInitVelocity(float init_velocity) { this->init_velocity = init_velocity; }
 	virtual void setVelocity(float velocity) { this->velocity = velocity; }
 
+	// function
 	virtual void update();
 	virtual void render();
 };

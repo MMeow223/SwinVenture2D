@@ -8,6 +8,10 @@ Game::Game()
 	mainMenu = new MainMenu(window);
 	gameBackgroundScene = new GameBackgroundScene(window);
 	gameIntroScene = new GameIntroScene(window);
+	loseGameScene = new LoseGameScene(window);
+	winGameScene = new WinGameScene(window);
+	achievementScene = new AchievementScene(window);
+
 	background = new Background();
 	player =  new Player(window);
 	queue_list[0] = background->getLayerOneQueue();
@@ -46,16 +50,8 @@ Game::Game()
 	//sceneStack.push(mainMenu);
 
 	clock = new sf::Clock();
+	damage_deal_interval = new sf::Clock();
 
-	mainMenuQuoteText.setFont(font);
-	mainMenuQuoteText.setString("Awesome!");
-	mainMenuQuoteText.setCharacterSize(40);
-	mainMenuQuoteText.setFillColor(sf::Color(255, 255, 0, textBlink));
-	mainMenuQuoteText.setOutlineColor(sf::Color(0, 0, 0, textBlink));
-
-	mainMenuQuoteText.setOutlineThickness(1);
-	mainMenuQuoteText.setPosition(750, 300);
-	mainMenuQuoteText.rotate(-30);
 	
 }
 
@@ -66,9 +62,15 @@ Game::Game(sf::RenderWindow* window)
 	this->window = window;
 	this->window->setFramerateLimit(60);
 	this->window->setKeyRepeatEnabled(false);
+
+	// scenes
 	mainMenu = new MainMenu(this->window);
 	gameBackgroundScene = new GameBackgroundScene(window);
 	gameIntroScene = new GameIntroScene(window);
+	loseGameScene = new LoseGameScene(window);
+	winGameScene = new WinGameScene(window);
+	achievementScene = new AchievementScene(window);
+
 	background = new Background();
 	player = new Player(window);
 	queue_list[0] = background->getLayerOneQueue();
@@ -102,6 +104,7 @@ Game::Game(sf::RenderWindow* window)
 	//sceneStack.push(mainMenu);
 	sceneStack = Stack<Scene*>(mainMenu);
 	clock = new sf::Clock();
+	damage_deal_interval = new sf::Clock();
 	accumulatedTime = 0;
 
 	font.loadFromFile("./res/font/Symtext.ttf");
@@ -110,15 +113,6 @@ Game::Game(sf::RenderWindow* window)
 	clockText.setFillColor(sf::Color::White);
 	clockText.setString(to_string((int)accumulatedTime));
 
-	mainMenuQuoteText.setFont(font);
-	mainMenuQuoteText.setString("Awesome!");
-	mainMenuQuoteText.setCharacterSize(40);
-	mainMenuQuoteText.setFillColor(sf::Color(255, 255, 0, textBlink));
-	mainMenuQuoteText.setOutlineColor(sf::Color(0, 0, 0, textBlink));
-
-	mainMenuQuoteText.setOutlineThickness(1);
-	mainMenuQuoteText.setPosition(750, 300);
-	mainMenuQuoteText.rotate(-30);
 	
 
 }
@@ -127,6 +121,53 @@ Game::~Game()
 {
 	delete window;
 	delete background;
+}
+
+void Game::checkAchievementMaster()
+{
+	if (player->getHp() == player->getHpMax()) 
+	{
+		cout << "Unlock Master!" << endl;
+		// achievement unlock
+	}
+}
+
+void Game::checkAchievementHopper()
+{
+	if (use_weapon_attack_count == 0){
+		cout << "Unlock Hopper!" << endl;
+		// achievement unlock
+	}
+}
+
+void Game::checkAchievementPitcher()
+{
+	if (use_jump_attack_count == 0) {
+		// achievement unlock
+		cout << "Unlock Pitcher!" << endl;
+	}
+}
+
+void Game::checkAchievementLegend()
+{
+	if (player->getHp() <= 0 && total_damage_deal == 0) {
+		// achievement unlock
+		cout << "Unlock Legend!" << endl;
+	}
+}
+
+void Game::checkAchievementFighter()
+{
+	if (shortest_damage_per_second <= 1) {
+		// achievement unlock
+		cout << "Unlock Fighter!" << endl;
+
+	}
+}
+
+void Game::updateAchievement()
+{
+
 }
 
 void Game::removeWeapon()
@@ -169,8 +210,44 @@ Enemy* Game::createEnemy()
 		break;
 	}
 	
-	return new  Enemy(window, temp, sf::Vector2f(1080 - 93, 567 - 183));
+	return new Enemy(window, temp, sf::Vector2f(1080 - 93, 567 - 183));
 	
+}
+
+void Game::recordScoreToFile()
+{
+
+	// read from file
+	ifstream fr("./data/score.txt", std::ifstream::in);
+	if (fr.is_open()) {
+		string line;
+		for (int i = 0; i < 2; i++) {
+			getline(fr, line);
+			game_score[i] = line;
+		}
+		fr.close();
+	}
+	else {
+		cout << "Unable to open score.txt file";
+	}
+
+	// if new score bigger than the old score, write to file
+	if (score > stoi(game_score[0])) {
+		// write to file
+		ofstream fw("./data/score.txt", std::ofstream::out);
+		if (fw.is_open()) {
+			fw << score << endl;
+			fw << time_taken;
+			fw.close();
+		}
+		else {
+			cout << "Unable to open score.txt file";
+		}
+		winGameScene->setQuoteText("New Record!");
+	}
+	else {
+		winGameScene->setQuoteText("Congratulation!!");
+	}
 }
 
 void Game::handle_event()
@@ -184,10 +261,30 @@ void Game::handle_event()
 		// only input from menu
 		else if (event.type == sf::Event::KeyPressed && pause) {
 			if (event.key.code == sf::Keyboard::Down) {
-				mainMenu->setList(mainMenu->getList()->getNext());
+				if (sceneStack.top()->getSceneID() == "scene_main_menu"
+					|| sceneStack.top()->getSceneID() == "scene_lose_game"
+					|| sceneStack.top()->getSceneID() == "scene_win_game"
+					) 
+				{
+					sceneStack.top()->setList(sceneStack.top()->getList()->getNext());
+				}
+				/*if (sceneStack.top()->getSceneID() == "scene_main_menu") {
+					mainMenu->setList(mainMenu->getList()->getNext());
+				}
+				else if (sceneStack.top()->getSceneID() == "scene_lose_game") {
+
+				}*/
 			}
 			if (event.key.code == sf::Keyboard::Up) {
-				mainMenu->setList(mainMenu->getList()->getPrevious());
+				if (sceneStack.top()->getSceneID() == "scene_main_menu"
+					|| sceneStack.top()->getSceneID() == "scene_lose_game"
+					|| sceneStack.top()->getSceneID() == "scene_win_game"
+					)
+				{
+					sceneStack.top()->setList(sceneStack.top()->getList()->getPrevious());
+				}
+				
+				//mainMenu->setList(mainMenu->getList()->getPrevious());
 			}
 			if (event.key.code == sf::Keyboard::Enter) {
 				enterPressed = true;
@@ -321,42 +418,35 @@ void Game::handle_event()
 				player->setPosition(sf::Vector2f(player->getPosition().x - player->getInitVelocity(), player->getPosition().y));
 			}
 		}
-		///
-		///
-		/// ///
-		// for testing
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
-		//	if (player->getHp() - 1 != 0) {
-		//		player->setHp(player->getHp()-1);
-		//	}
-		//}
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
-		//	//delete weapon;
-		//	//weapon = new Weapon(window);
-		//	weaponQueue.push(new Weapon(window, sf::Vector2f(player->getPosition().x, player->getPosition().y)));
-		//}
 	}
+}
+void Game::reset() {
+	player = new Player(window);
+	//enemy = createEnemy();
+	clock->restart();
+	ememies_killed = 0;
+	time_taken = 0;
+	score = 0;
+
+	use_weapon_attack_count = 0;
+	use_jump_attack_count = 0;
+	total_damage_deal = 0;
+	damage_deal_interval->restart();
+	shortest_damage_per_second = 0;
+	
 }
 
 void Game::update()
 {
-	if (pause) {
-		if (textBlinkUp) {
-			textBlink -= blinkspeed;
-		}
-		else {
-			textBlink += blinkspeed;
-		}
-		if (textBlink <= 0 || textBlink >= 255) {
-			textBlinkUp = !textBlinkUp;
-		}
-		mainMenuQuoteText.setFillColor(sf::Color(255, 255, 0, textBlink));
-		mainMenuQuoteText.setOutlineColor(sf::Color(0, 0, 0, textBlink));
-	}
+	
+	
+	// record score to text file
+	// text file
 	
 
+	pause = !sceneStack.empty();
 
-	
+
 	if (pause) {
 		accumulatedTime += (int)clock->getElapsedTime().asSeconds();
 		clock->restart();
@@ -366,14 +456,41 @@ void Game::update()
 		clockText.setString("Time: " + to_string((int)(accumulatedTime + (int)clock->getElapsedTime().asSeconds())));
 	}
 	
+	if (ememies_killed > 1) {
+		checkAchievementMaster();
+		checkAchievementHopper();
+		checkAchievementPitcher();
+		
+		score = (int)((500 - (int)accumulatedTime - (int)clock->getElapsedTime().asSeconds()) * 51);
+		time_taken = (int)accumulatedTime + (int)clock->getElapsedTime().asSeconds();
+		winGameScene->setScoreText(to_string(score));
+		winGameScene->setTimeText(to_string(time_taken));
+		sceneStack.push(winGameScene);
+		recordScoreToFile();
+		reset();
+		
+	}
+
+	// when player die (lose)
+	if (player->getHp() <= 0) {
+		checkAchievementLegend();
+		sceneStack.push(loseGameScene);
+		reset();
+	}
+
+	
 	clockText.setPosition(1080 - clockText.getLocalBounds().width - 10, 10);
 
+	// jump attack
 	if (player->getPosition().x < enemy->getPosition().x + enemy->getSize().x &&
 		player->getPosition().x  > enemy->getPosition().x
 		&& player->getPosition().y + player->getSize().y > enemy->getPosition().y
 		)
 	{
 		enemy->setHp(enemy->getHp() - player->getDamage());
+		use_jump_attack_count++;
+		total_damage_deal += player->getDamage();
+		
 	}
 	
 	// can stand on enemy head
@@ -399,15 +516,32 @@ void Game::update()
 		player->setPosition(sf::Vector2f(enemy->getPosition().x - player->getSize().x, player->getPosition().y));
 	}
 
-	
-	
+	// when the enemy first taking damage
+	if (enemy_first_attacked == false && enemy->getHp() < enemy->getHpMax()) {
+		enemy_first_attacked = true;
+		damage_deal_interval->restart();
+	}
+
+	// when enemy pass the left screen
 	if (enemy->getPosition().x < 0 - enemy->getSize().x) {
 		enemy = createEnemy();
 		player->setHp(player->getHp() - 10);
 	}
 	
+	// when player killed the enemy
 	if (enemy->getHp() <= 0) {
+
+		
+		if (damage_deal_interval->getElapsedTime().asSeconds() < shortest_damage_per_second) {
+			shortest_damage_per_second = damage_deal_interval->getElapsedTime().asSeconds();
+		}
+		cout << "Current Time taken to kill enemy: " << damage_deal_interval->getElapsedTime().asSeconds() << endl;
+		cout << "Shortest Time taken to kill enemy: " << shortest_damage_per_second << endl;
+		damage_deal_interval->restart();
+		checkAchievementFighter();
+
 		enemy = createEnemy();
+		ememies_killed += 1;
 
 	}
 	//removeWeapon();
@@ -422,15 +556,17 @@ void Game::update()
 		{
 			weapon->setIsFinish(true);
 			enemy->setHp(enemy->getHp() - weapon->getDamage());
-			cout << "Hit==================================================================" << endl;
-
+		
+			use_weapon_attack_count++;
+			total_damage_deal += weapon->getDamage();
+			//if (damage_deal_interval->getElapsedTime().asSeconds() < shortest_damage_per_second) {
+			//	shortest_damage_per_second = damage_deal_interval->getElapsedTime().asSeconds();
+			//}
+			//damage_deal_interval->restart();
 		}
 	}
 	
 	hpBar.setSize(sf::Vector2f(player->getHp()/ player->getHpMax()*300, 40));
-	if (player->getPosition().x < 0 - player->getSize().x) {
-		cout << "Game Over" << endl;
-	}
 	
 	if (!pause) player->update();
 	//if (gameStart) player->update();
@@ -447,27 +583,43 @@ void Game::update()
 	
 	mainMenu->update();
 	
-	pause = !sceneStack.empty();
+	//pause = !sceneStack.empty();
 		
 	if (enterPressed) {
-		//if (enterPressed && showMainMenu) {
-		switch (mainMenu->getList()->getValue().number)
+
+		switch (sceneStack.top()->getList()->getValue().number)
 		{
-		case 1: 
+		case 1:
 			//gameStart = true;
 			if (!sceneStack.empty()) {
 				if (sceneStack.top()->getSceneID() == "scene_main_menu") {
 					sceneStack.pop();
 				}
 				else {
-					sceneStack.push(mainMenu);
+					if (sceneStack.top()->getSceneID() == "scene_lose_game"
+						|| sceneStack.top()->getSceneID() == "scene_win_game"
+						) {
+						while (!sceneStack.empty()) {
+							sceneStack.pop();
+						}
+					}
+					else {
+						sceneStack.push(mainMenu);
+					}
 				}
 			}
-			
 			break;
 		case 2:
 			if (sceneStack.top()->getSceneID() == "scene_main_menu") {
 				sceneStack.push(gameIntroScene);
+			}
+			else if (sceneStack.top()->getSceneID() == "scene_lose_game"
+				|| sceneStack.top()->getSceneID() == "scene_win_game"
+				) {
+				while (!sceneStack.empty()) {
+					sceneStack.pop();
+				}
+				sceneStack.push(mainMenu);
 			}
 			//pause = true;
 			//showGameIntroBook = true;
@@ -480,9 +632,49 @@ void Game::update()
 		case 4:
 			window->close();
 			break;
+		case 5:
+			if (sceneStack.top()->getSceneID() == "scene_main_menu") {
+				sceneStack.push(achievementScene);
+			}
+			break;
 		default:
 			break;
 		}
+
+		//switch (mainMenu->getList()->getValue().number)
+		//{
+		//case 1: 
+		//	//gameStart = true;
+		//	if (!sceneStack.empty()) {
+		//		if (sceneStack.top()->getSceneID() == "scene_main_menu") {
+		//			sceneStack.pop();
+		//		}
+		//		else {
+		//			sceneStack.push(mainMenu);
+		//		}
+		//	}
+		//	
+		//	break;
+		//case 2:
+		//	if (sceneStack.top()->getSceneID() == "scene_main_menu") {
+		//		sceneStack.push(gameIntroScene);
+		//	}
+		//	//pause = true;
+		//	//showGameIntroBook = true;
+		//	break;
+		//case 3:
+		//	if (sceneStack.top()->getSceneID() == "scene_main_menu") {
+		//		sceneStack.push(gameBackgroundScene);
+		//	}
+		//	break;
+		//case 4:
+		//	window->close();
+		//	break;
+		//default:
+		//	break;
+		//}
+
+		
 		enterPressed = false;
 	}
 	removeWeapon();
@@ -492,6 +684,10 @@ void Game::update()
 		danger_opacity = 0;
 	}
 	dangerSprite.setColor(sf::Color(255, 255, 255, 255 - danger_opacity));
+
+
+	//checkAchievementLegend();
+
 }
 
 void Game::clean()
@@ -516,11 +712,14 @@ void Game::render()
 
 	if (showKeyReference) window->draw(keyReferenceSprite);
 	if (weapon != nullptr) weapon->render();
-	if (!sceneStack.empty()) sceneStack.top()->render();
+	if (!sceneStack.empty())
+	{
+		sceneStack.top()->render();
+	}
 	window->draw(clockText);
 	//if (showGameIntroBook) gameIntroBook->render();
 	//currentPage->getValue()->render();
 	//currentPage->getNext()->getValue()->render();
-	if (pause) window->draw(mainMenuQuoteText);
 	
 }
+

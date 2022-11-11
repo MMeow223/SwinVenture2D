@@ -44,9 +44,6 @@ public:
 			top_value = value;
 		}
 		size++;
-		//for (LinkedList<DataType>* i = stack; i != &LinkedList<DataType>::NIL; i = i->getNext()) {
-		//	cout << i->getValue() << endl;
-		//}
 	};
 	void pop()
 	{

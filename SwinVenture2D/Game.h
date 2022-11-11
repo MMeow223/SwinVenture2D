@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <fstream>
 #include "Background.h"
 #include <queue>
 #include "CircularDoublyLinkedList.h"
@@ -20,6 +21,9 @@
 #include "GameBackgroundScene.h"
 #include "Stack.h"
 #include "Player.h"
+#include "LoseGameScene.h"
+#include "WinGameScene.h"
+#include "AchievementScene.h"
 using namespace std;
 class Game : public Scene
 {
@@ -29,6 +33,10 @@ private:
 	MainMenu* mainMenu;
 	GameBackgroundScene* gameBackgroundScene;
 	GameIntroScene* gameIntroScene;
+	LoseGameScene* loseGameScene;
+	WinGameScene* winGameScene;
+	AchievementScene* achievementScene;
+	
 
 	// background
 	Queue<BackgroundLayer*> queue_list[4];
@@ -49,9 +57,6 @@ private:
 	// font and text
 	sf::Font font;
 	sf::Text clockText;
-	sf::Text mainMenuQuoteText;
-	int textBlink = 255;
-	int blinkspeed = 5;
 	
 	// game objects
 	Player* player;
@@ -63,7 +68,7 @@ private:
 	// clock and time
 	sf::Clock* clock;
 	float accumulatedTime;
-	
+
 	// game state
 	bool showMainMenu = true;
 	bool showBackground = true;
@@ -73,8 +78,18 @@ private:
 	bool showKeyReference = true;
 	bool showGameIntroBook = false;
 	bool pause = true;
-	bool textBlinkUp = true;
 	
+	int ememies_killed = 0;
+	string game_score[2] = { "", "" };
+	int score = 0;
+	int time_taken = 0;
+	
+	int use_weapon_attack_count = 0;
+	int use_jump_attack_count = 0;
+	int total_damage_deal = 0;
+	sf::Clock* damage_deal_interval;
+	float shortest_damage_per_second = 1000;
+	bool enemy_first_attacked = false;
 	
 public:
 	Game();
@@ -88,10 +103,19 @@ public:
 	//setter
 	//void setMoveDistance(float move_distance) { this->move_distance = move_distance; }
 
+	void checkAchievementMaster();
+	void checkAchievementHopper();
+	void checkAchievementPitcher();
+	void checkAchievementLegend();
+	void checkAchievementFighter();
+
+	void updateAchievement();
+
 	void removeWeapon();
 	//void gameOverCheck();
 	Enemy* createEnemy();
-	
+	void recordScoreToFile();
+	void reset();
 	void handle_event();
 	void update();
 	void clean();

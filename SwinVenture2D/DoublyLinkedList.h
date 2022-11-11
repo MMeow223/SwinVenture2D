@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include <iostream>
 #include <string>
 #include "LinkedList.h"
@@ -11,7 +10,6 @@ struct Content {
 template <class DataType>
 class DoublyLinkedList
 {
-public:
 	typedef LinkedList<DataType>* Node;
 
 private:
@@ -31,10 +29,11 @@ public:
 		list = new LinkedList<DataType>(value);
 		size++;
 	}
-	//void prepend(DataType value)
-	//{
-	//	list->prepend(value);
-	//}
+	void prepend(DataType value)
+	{
+		list->prepend(value);
+		size++;
+	}
 	void append(DataType value)
 	{
 		list->append(value);
@@ -42,16 +41,16 @@ public:
 	}
 	DoublyLinkedList<DataType>* next()
 	{
-		DoublyLinkedList<DataType>* temp = this;
-		temp->setList(temp->getList()->getNext());
-		return temp;
+		DoublyLinkedList<DataType> temp = *this;
+		temp.setList(temp.getList()->getNext());
+		return &temp;
 	}
 	
 	DoublyLinkedList<DataType>* prev()
 	{
-		DoublyLinkedList<DataType>* temp = this;
-		temp->setList(temp->getList()->getPrevious());
-		return temp;
+		DoublyLinkedList<DataType> temp = *this;
+		temp.setList(temp.getList()->getPrevious());
+		return &temp;
 	}
 	
 	void remove()

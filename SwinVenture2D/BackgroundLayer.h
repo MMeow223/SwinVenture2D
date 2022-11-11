@@ -31,7 +31,7 @@ public:
 	void setPosition(sf::Vector2f position) { this->position = position; }
 	void setImagePath(string image_path) { this->image_path = image_path; }
 	
-	
+	// functions
 	void update();
 	void render(sf::RenderWindow* window);
 };

@@ -17,6 +17,12 @@
 #include "Queue.h"
 #include "Stack.h"
 #include "StarContainer.h"
+#include "SinglyLinkedList.h"
+#include "Iterator.h"
+#include "LoseGameScene.h"
+#include "Achievement.h"
+#include "Iterator.h"
+#include "AchievementScene.h"
 using namespace std;
 int main() {
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1080, 720), "SwinVenture2D");
@@ -25,28 +31,20 @@ int main() {
 
 	float move_distance = 0;
 	Game game = Game(window);
+	SinglyLinkedList<int> list(1);
+	//cout << list.getValue() << endl;
+	list.pushBack(2);
+	//cout << list.getValue() << endl;
+	list.pushBack(3);
+	//cout << list.getValue() << endl;
 
-	/*StarContainer* starContainer = new StarContainer(
-		window,
-		sf::Vector2f(0, 0),
-		sf::Vector2f(1080, 720),
-		0,
-		0,
-		"star.png",
-		new Star(window, sf::Vector2f(1, 1), sf::Vector2f(10, 10), 1, 2, "star.png"));*/
-	
-	/*starContainer->insertStar(new Star(window, sf::Vector2f(2, 1), sf::Vector2f(10, 10), 1, 2, "star.png"));
-	starContainer->insertStar(new Star(window, sf::Vector2f(3, 1), sf::Vector2f(10, 10), 1, 2, "star.png"));
-	starContainer->insertStar(new Star(window, sf::Vector2f(4, 1), sf::Vector2f(10, 10), 1, 2, "star.png"));
-	cout << starContainer->getStar()->getPosition().x << endl;
-	starContainer->dropStar();
-	cout << starContainer->getStar()->getPosition().x << endl;
-	starContainer->dropStar();
-	cout << starContainer->getStar()->getPosition().x << endl;
-	starContainer->dropStar();
-	cout << starContainer->getStar()->getPosition().x << endl;*/
+	//cout << list.front() << endl;
+	cout << list.next()->getValue() << endl;
+	cout << list.next()->getValue() << endl;
+	//cout << list.back() << endl;
+	//cout << list.back() << endl;
 
-
+	//AchievementScene achievementScene = AchievementScene(window);
 
 	while (window->isOpen())
 	{
@@ -54,10 +52,11 @@ int main() {
 		game.handle_event();
 		game.update();
 
-
-
 		window->clear();
 		game.render();
+		
+		//achievementScene.render();
+
 		window->display();
 	}
 	game.clean();

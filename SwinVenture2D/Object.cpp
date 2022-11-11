@@ -7,8 +7,8 @@ Object::Object()
 	window = nullptr;
 	position = sf::Vector2f(0, 0);
 	size == sf::Vector2f(0, 0);
-	initVelocity = 1;
-	velocity = initVelocity;
+	init_velocity = 1;
+	velocity = init_velocity;
 
 	imageFilePath = "./res/images/poop.png";
 	texture.loadFromFile(imageFilePath);
@@ -21,8 +21,8 @@ Object::Object(sf::RenderWindow* window, sf::Vector2f position, sf::Vector2f siz
 	this->window = window;
 	this->position = position;
 	this->size = size;
-	initVelocity = velocity;
-	this->velocity = initVelocity;
+	init_velocity = velocity;
+	this->velocity = init_velocity;
 
 	imageFilePath = filepath;
 	texture.loadFromFile(imageFilePath);

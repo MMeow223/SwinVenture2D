@@ -17,7 +17,7 @@ protected:
 	float hp_max;
 	float hp;
 	float jump_height_limit;
-	float initVelocity;
+	float init_velocity;
 	float velocity;
 	float initJumpVelocity;
 	float jumpVelocity;
@@ -35,7 +35,7 @@ public:
 	sf::RenderWindow* getWindow() { return window; }
 	sf::Vector2f getPosition() { return position; }
 	
-	float getInitVelocity() { return initVelocity; }
+	float getInitVelocity() { return init_velocity; }
 	float getVelocity() { return velocity; }
 	float getInitJumpVelocity() { return initJumpVelocity; }
 	float getJumpVelocity() { return jumpVelocity; }
@@ -55,7 +55,7 @@ public:
 	//setter
 	void setWindow(sf::RenderWindow* window) { this->window = window; }
 	void setPosition(sf::Vector2f position) { this->position = position; }
-	void setInitVelocity(float initVelocity) { this->initVelocity = initVelocity; }
+	void setInitVelocity(float init_velocity) { this->init_velocity = init_velocity; }
 	void setVelocity(float velocity) { this->velocity = velocity; }
 	void setInitJumpVelocity(float initJumpVelocity) { this->initJumpVelocity = initJumpVelocity; }
 	void setJumpVelocity(float jumpVelocity) { this->jumpVelocity = jumpVelocity; }

@@ -24,9 +24,9 @@ Enemy::Enemy()
 	hp_max = 100;
 	hp = hp_max;
 	jump_height_limit = 100;
-	initVelocity = 1;
+	init_velocity = 1;
 	velocity = 1.2;
-	velocity = initVelocity;
+	velocity = init_velocity;
 	gravity = 1.08;
 	terminalSpeed = 20;
 	isFall = false;
@@ -84,8 +84,8 @@ Enemy::Enemy(sf::RenderWindow* window, string bubbleTextContent, sf::Vector2f po
 	hp_max = 100;
 	hp = hp_max;
 	jump_height_limit = 100;
-	initVelocity = 2;
-	velocity = initVelocity;
+	init_velocity = 2;
+	velocity = init_velocity;
 	gravity = 1.08;
 	terminalSpeed = 20;
 	isFall = false;
