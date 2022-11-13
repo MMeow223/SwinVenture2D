@@ -22,7 +22,12 @@
 #include "Iterator.h"
 #include "AchievementScene.h"
 #include "PopUp.h"
+
 using namespace std;
+
+Game* Game::instance = nullptr;
+
+
 int main() {
 	// init window
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1080, 720), "SwinVenture2D");
@@ -30,21 +35,27 @@ int main() {
 	window->setKeyRepeatEnabled(false);
 
 	// init game and set the background to auto loop once it start
-	Game game = Game(window);
-	game.getBackground()->setAutoLoop(true);
+	Game* game = game->getInstance(window);
+	Game* game1 = game1->getInstance(window);
+	Game* game2 = game2->getInstance(window);
+	cout << "Game's memory address: \t" << game << endl;
+	cout << "Game1's memory address: \t" << game1 << endl;
+	cout << "Game2's memory address: \t" << game2 << endl;
+	
+	game->getBackground()->setAutoLoop(true);
+
 	
 	while (window->isOpen())
 	{
-			
 		// handle inputs and events
-		game.handle_event();
+		game1->handle_event();
 		
 		// update game
-		game.update();
+		game2->update();
 		
 		// render and display
 		window->clear();
-		game.render();
+		game->render();
 		window->display();
 		
 	}

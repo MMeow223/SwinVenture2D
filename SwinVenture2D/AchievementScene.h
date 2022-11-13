@@ -3,6 +3,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <fstream>
+#include <time.h>
+#include <locale.h>
 #include "Scene.h"
 #include "Book.h"
 #include "Achievement.h"
@@ -36,10 +38,18 @@ public:
 	AchievementScene(sf::RenderWindow* window);
 	~AchievementScene();
 
+	// getter 
+	Achievement** getAchievementList() { return achievement_list; }
+	AchievementDetail* getAchievementStatus() { return achievement_status; }
+	bool getAchievementUnlockStatus(int index) { return achievement_status[index].unlock_status; }
+	
+	// functions
 	void loadAchievementFromFile();
 	void updateAchievementStatus();
 
 	void update();
 	void render();
+	void recordAchievement(string achievement_name);
+	void recordToFile();
 };
 

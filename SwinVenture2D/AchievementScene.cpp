@@ -88,6 +88,53 @@ void AchievementScene::render()
 	}
 }
 
+void AchievementScene::recordAchievement(string achievement_name)
+{
+	// get today date
+	struct tm newtime;
+	time_t now = time(0);
+	localtime_s(&newtime, &now);
+	int Date = newtime.tm_mday;
+	int Month = 1 + newtime.tm_mon;
+	int Year = 1900 + newtime.tm_year;
+
+	string date = to_string(Date) + "-" + to_string(Month) + "-" + to_string(Year);
+	
+	
+	if (achievement_name == "master") {
+		achievement_status[0].unlock_date = date;
+		achievement_status[0].unlock_status = true;
+	}
+	else if (achievement_name == "hopper") {
+		achievement_status[1].unlock_date = date;
+		achievement_status[1].unlock_status = true;
+	}
+	else if (achievement_name == "pitcher") {
+		achievement_status[2].unlock_date = date;
+		achievement_status[2].unlock_status = true;
+	}
+	else if (achievement_name == "legend") {
+		achievement_status[3].unlock_date = date;
+		achievement_status[3].unlock_status = true;
+	}
+	else if (achievement_name == "fighter") {
+		achievement_status[4].unlock_date = date;
+		achievement_status[4].unlock_status = true;
+	}
+	recordToFile();
+	updateAchievementStatus();
+
+}
+
+void AchievementScene::recordToFile() {
+	// write to file
+	ofstream file;
+	file.open("./data/achievement.txt");
+	for (int i = 0; i < 5; i++) {
+		file << achievement_status[i].unlock_date << "," << achievement_status[i].unlock_status << endl;
+	}
+}
+
 void AchievementScene::loadAchievementFromFile()
 {
 	// read the achievement details from file and store them in the achievement_status array

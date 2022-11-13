@@ -148,19 +148,25 @@ Game::~Game()
 void Game::checkAchievementMaster()
 {
 	// if the player win the game with full hp
-	if (player->getHp() == player->getHpMax()) 
+	if (player->getHp() == player->getHpMax())
 	{
 		cout << "Unlock Master!" << endl;
-		popUpList.append(new PopUp(window, "./res/images/achievement-master.png"));
+		if (achievementScene->getAchievementUnlockStatus(0) == false) {
+			popUpList.append(new PopUp(window, "./res/images/achievement-master.png"));
+			achievementScene->recordAchievement("master");
+		}
 	}
 }
 
 // if the player win the game without using weapon
 void Game::checkAchievementHopper()
 {
-	if (use_weapon_attack_count == 0){
+	if (use_weapon_attack_count == 0) {
 		cout << "Unlock Hopper!" << endl;
-		popUpList.append(new PopUp(window, "./res/images/achievement-hopper.png"));
+		if (achievementScene->getAchievementUnlockStatus(1) == false) {
+			popUpList.append(new PopUp(window, "./res/images/achievement-hopper.png"));
+			achievementScene->recordAchievement("hopper");
+		}
 	}
 }
 
@@ -169,8 +175,10 @@ void Game::checkAchievementPitcher()
 {
 	if (use_jump_attack_count == 0) {
 		cout << "Unlock Pitcher!" << endl;
-		popUpList.append(new PopUp(window, "./res/images/achievement-pitcher.png"));
-
+		if (achievementScene->getAchievementUnlockStatus(2) == false) {
+			popUpList.append(new PopUp(window, "./res/images/achievement-pitcher.png"));
+			achievementScene->recordAchievement("pitcher");
+		}
 	}
 }
 
@@ -179,7 +187,10 @@ void Game::checkAchievementLegend()
 {
 	if (player->getHp() <= 0 && total_damage_deal == 0) {
 		cout << "Unlock Legend!" << endl;
-		popUpList.append(new PopUp(window, "./res/images/achievement-legend.png"));
+		if (achievementScene->getAchievementUnlockStatus(3) == false) {
+			popUpList.append(new PopUp(window, "./res/images/achievement-legend.png"));
+			achievementScene->recordAchievement("legend");
+		}
 	}
 }
 
@@ -188,7 +199,11 @@ void Game::checkAchievementFighter()
 {
 	if (shortest_damage_per_second <= 2) {
 		cout << "Unlock Fighter!" << endl;
-		popUpList.append(new PopUp(window, "./res/images/achievement-fighter.png"));
+
+		if (achievementScene->getAchievementUnlockStatus(4) == false) {
+			popUpList.append(new PopUp(window, "./res/images/achievement-fighter.png"));
+			achievementScene->recordAchievement("fighter");
+		}
 	}
 }
 
@@ -197,6 +212,7 @@ void Game::checkAchievementFighter()
 // or renew the unlock date
 void Game::updateAchievement()
 {
+	
 
 }
 

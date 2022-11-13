@@ -27,6 +27,8 @@ using namespace std;
 class Game : public Scene
 {
 private:
+	
+
 	// scenes
 	Stack<Scene*> sceneStack;
 	MainMenu* mainMenu;
@@ -60,15 +62,13 @@ private:
 	Player* player;
 	Enemy* enemy;
 	Weapon* weapon;
-	//Book* gameIntroBook;
 	
 	// clock and time
 	sf::Clock* clock;
 	float accumulatedTime = 0;
 
-	//SinglyLinkedList<PopUp*>* popUpList;
+	// achievement and pop up
 	SinglyLinkedList<PopUp*> popUpList;
-	//Queue<PopUp*> popUpList;
 
 	// game state
 	bool showMainMenu = true;
@@ -93,12 +93,21 @@ private:
 	sf::Clock* damage_deal_interval;
 	float shortest_damage_per_second = 1000;
 	bool enemy_first_attacked = false;
-	
-public:
+
+	static Game* instance;
+
 	Game();
 	Game(sf::RenderWindow* window);
 	~Game();
 
+public:
+
+	static Game* getInstance(sf::RenderWindow* window) {
+		if (!instance)
+			instance = new Game(window);
+		return instance;
+	}
+	
 	//getter
 	sf::RenderWindow* getWindow() { return window; }
 	Background* getBackground() { return background; }
@@ -114,10 +123,8 @@ public:
 	Enemy* createEnemy();
 	void recordScoreToFile();
 	void reset();
-	void handle_event();
 	void updatePopUpList();
 	void handleClock();
-	void update();
 	void updateWindowBorderColor();
 	void checkSelectedOption();
 	void checkWeaponEnemyCollide();
@@ -126,6 +133,9 @@ public:
 	void checkJumpAttack();
 	void checkLoseCondition();
 	void checkWinCondition();
+	
+	void handle_event();
+	void update();
 	void render();
 	
 };
