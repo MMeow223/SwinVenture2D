@@ -11,9 +11,16 @@ class Scene
 {
 
 protected:
+	// window
 	sf::RenderWindow* window;
+	
+	// book for showing 
 	Book* book;
+
+	// scene details
 	string sceneID;
+
+	// options for choosing
 	CircularDoublyLinkedList<Content>* list;
 	
 
@@ -34,6 +41,7 @@ public:
 	void setBook(Book* book) { this->book = book; }
 	void setList(CircularDoublyLinkedList<Content>* list) { this->list = list; }
 
+	// functions
 	virtual void update() = 0;
 	virtual void render() = 0;
 

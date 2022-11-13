@@ -8,8 +8,8 @@
 using namespace std;
 class GameBackgroundScene : public Scene
 {
-
 private:
+	// sprite and textuer
 	sf::Sprite sprite;
 	sf::Texture texture;
 
@@ -18,7 +18,7 @@ public:
 	GameBackgroundScene(sf::RenderWindow* window);
 	~GameBackgroundScene();
 
-
+	// functions
 	void update();
 	void render();
 

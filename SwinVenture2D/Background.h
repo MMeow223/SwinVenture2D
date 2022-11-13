@@ -1,28 +1,29 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <SFML/Graphics.hpp>
 #include "Queue.h"
-#include "SFML/Graphics.hpp"
 #include "BackgroundLayer.h"
 using namespace std;
 
 class Background
 {
 private:
-	// background layers, there is four layer to create parallax effect when 
-	// the background move.
+	
+	sf::RenderWindow* window;
+	// background layers, there is four layer to create parallax effect when the background move.
 	Queue<BackgroundLayer*> layer_one_queue;
 	Queue<BackgroundLayer*> layer_two_queue;
 	Queue<BackgroundLayer*> layer_three_queue;
 	Queue<BackgroundLayer*> layer_four_queue;
 	
-	// auto move only for the main menu background when this game is open
-	bool autoloop = false;
-	
-	// distance represent how far the background move in one frame
+	// background details
 	float move_distance = 20;
+	
+	// state 
+	bool autoloop = false;
 public:
-	Background();
+	Background(sf::RenderWindow* window);
 	~Background();
 
 	//getter
@@ -40,6 +41,6 @@ public:
 	// functions
 	void AutoLoop();
 	void update();
-	void render(sf::RenderWindow* window);
+	void render();
 };
 

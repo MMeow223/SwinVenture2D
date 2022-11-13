@@ -11,55 +11,43 @@
 #include "Entity.h"
 #include "Weapon.h"
 #include "Enemy.h"
-#include "Star.h"
 #include "Page.h"
 #include "GameIntroScene.h"
 #include "Queue.h"
 #include "Stack.h"
-#include "StarContainer.h"
 #include "SinglyLinkedList.h"
 #include "Iterator.h"
 #include "LoseGameScene.h"
 #include "Achievement.h"
 #include "Iterator.h"
 #include "AchievementScene.h"
+#include "PopUp.h"
 using namespace std;
 int main() {
+	// init window
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1080, 720), "SwinVenture2D");
-	window->setFramerateLimit(20);
+	window->setFramerateLimit(60);
 	window->setKeyRepeatEnabled(false);
 
-	float move_distance = 0;
+	// init game and set the background to auto loop once it start
 	Game game = Game(window);
-	SinglyLinkedList<int> list(1);
-	//cout << list.getValue() << endl;
-	list.pushBack(2);
-	//cout << list.getValue() << endl;
-	list.pushBack(3);
-	//cout << list.getValue() << endl;
-
-	//cout << list.front() << endl;
-	cout << list.next()->getValue() << endl;
-	cout << list.next()->getValue() << endl;
-	//cout << list.back() << endl;
-	//cout << list.back() << endl;
-
-	//AchievementScene achievementScene = AchievementScene(window);
-
+	game.getBackground()->setAutoLoop(true);
+	
 	while (window->isOpen())
 	{
-		game.getBackground()->setAutoLoop(true);
+			
+		// handle inputs and events
 		game.handle_event();
+		
+		// update game
 		game.update();
-
+		
+		// render and display
 		window->clear();
 		game.render();
-		
-		//achievementScene.render();
-
 		window->display();
+		
 	}
-	game.clean();
 	
 	return 0;
 }

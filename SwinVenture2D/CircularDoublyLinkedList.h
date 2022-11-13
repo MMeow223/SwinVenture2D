@@ -19,7 +19,7 @@ private:
 
 public:
 	static Node NIL;
-	// Constructor
+	// default constructor
 	CircularDoublyLinkedList()
 	{
 		fValue = DataType();
@@ -28,6 +28,8 @@ public:
 		fStart = &NIL;
 		fEnd = &NIL;
 	}
+	
+	// copy constructor
 	CircularDoublyLinkedList(string contentTitle, int contentNumber)
 	{
 		Content newValue;
@@ -40,6 +42,8 @@ public:
 		fStart = &NIL;
 		fEnd = &NIL;
 	}
+	
+	// prepend node
 	void prepend(string contentTitle, int contentNumber)
 	{
 		CircularDoublyLinkedList* newNode = new CircularDoublyLinkedList(contentTitle, contentNumber);
@@ -48,13 +52,11 @@ public:
 		this->fPrevious->fNext = newNode;
 		this->fPrevious = newNode;
 	}
+
+	// append node
 	void append(string contentTitle, int contentNumber)
 	{
 		CircularDoublyLinkedList* newNode = new CircularDoublyLinkedList(contentTitle, contentNumber);
-
-		/*if (this->fPrevious == NIL && this->next == NIL) {
-			this->fStart
-		}*/
 
 		if (this->fStart == &NIL && this->fPrevious == &NIL) {
 			this->fStart = this;
@@ -82,6 +84,8 @@ public:
 		this->fNext->fPrevious = newNode;
 		this->fNext = newNode;
 	}
+
+	// remove node
 	void remove()
 	{
 		if (fNext == &NIL)
@@ -94,15 +98,18 @@ public:
 		}
 		else
 		{
-			fPrevious->fNext = fNext;	  // previous->next
-			fNext->fPrevious = fPrevious; // previous<-next
+			fPrevious->fNext = fNext;
+			fNext->fPrevious = fPrevious;
 		}
 	}
+	
+	// setter
 	void setValue(string newSkillName, int newLevel)
 	{
 		fValue.name = newSkillName;
 		fValue.contentNumber = newLevel;
 	}
+
 	// getters
 	DataType getValue() {
 		return fValue;

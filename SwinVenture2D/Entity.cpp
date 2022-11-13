@@ -5,13 +5,14 @@ Entity::Entity()
 	cout << "Init Entity" << endl;
 	window = nullptr;
 
-	// init the sprite and textuer
+	// load texture
 	texture.loadFromFile("./res/images/player.png");
 	sprite.setTexture(texture);
 	position = sf::Vector2f(1080/2 - size.x/2,720-153-size.y);
 	sprite.setPosition(position);
 	size = sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height);
 
+	// set details
 	damage = 20;
 	hp_max = 100;
 	hp = hp_max;
@@ -30,9 +31,10 @@ Entity::Entity()
 
 Entity::Entity(sf::RenderWindow* window)
 {
+	// set window
 	this->window = window;
 	
-	// init sprite and texture
+	// load texture
 	texture.loadFromFile("./res/images/player.png");
 	sprite.setTexture(texture);
 	position = sf::Vector2f(520, -300);
@@ -40,6 +42,7 @@ Entity::Entity(sf::RenderWindow* window)
 	size = sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height);
 	sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
 
+	// set details
 	damage = 20;
 	hp_max = 100;
 	hp = hp_max;
@@ -61,15 +64,16 @@ Entity::~Entity()
 
 void Entity::fall()
 {
-	
+	// this is to create a gradually increasing speed effect
+	// if the speed reach a limit, stop increasing
 	if (jumpVelocity < terminalSpeed) {
 		jumpVelocity *= gravity;
 	}
 
+	// fall
 	if (standOnEnemyHead) {
 		if (position.y < 567 - (189 * 2)) {
 			position.y += jumpVelocity;
-			cout << "Check" << endl;
 		}
 		else {
 			jumpVelocity = initJumpVelocity;
@@ -91,15 +95,16 @@ void Entity::fall()
 
 void Entity::jump()
 {
+	// this is to create a gradually increasing speed effect
+	// if the speed reach a limit, stop increasing
 	if (jumpVelocity < terminalSpeed * 2) {
-	jumpVelocity *= gravity;
+		jumpVelocity *= gravity;
 	}
 	else {
 		jumpVelocity = initJumpVelocity;
 	}
 
 	float prevPositionY = position.y;
-	
 	
 	if (standOnEnemyHead) {
 		if (isJump) {
@@ -152,12 +157,7 @@ void Entity::update()
 	else {
 		fall();
 	}
-	/*if (isJump || isFall) {
-		sprite.rotate(-50);
-	}
-	else {
-		sprite.setRotation(0);
-	}*/
+
 	if (!onGround() && !onEnemyHead()) {
 		sprite.rotate(10);
 

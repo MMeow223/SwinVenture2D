@@ -4,15 +4,17 @@ Enemy::Enemy()
 {
 	cout << "Init Enemy" << endl;
 
+	// nullptr because not used
 	window = nullptr;
 
-	// init sprite and texture
+	// load textures
 	texture.loadFromFile("./res/images/enemy.png");
 	sprite.setTexture(texture);
 	this->position = sf::Vector2f(520, 467);
 	sprite.setPosition(this->position);
 	size = sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height);
 
+	// load font and text
 	font.loadFromFile("./res/font/Symtext.ttf");
 	text.setFont(font);
 	text.setString("THIS IS EXAMPLE TEST");
@@ -20,7 +22,7 @@ Enemy::Enemy()
 	text.setFillColor(sf::Color::Red);
 	text.setPosition(position);
 	
-
+	// set details
 	hp_max = 100;
 	hp = hp_max;
 	jump_height_limit = 100;
@@ -32,6 +34,7 @@ Enemy::Enemy()
 	isFall = false;
 	isJump = false;
 	
+	// set shape
 	hpBar = sf::RectangleShape(sf::Vector2f(100, 10));
 	hpBar.setFillColor(sf::Color::Red);
 	hpBar.setPosition(sf::Vector2f(position.x + 10, position.y - 20));
@@ -39,8 +42,6 @@ Enemy::Enemy()
 	maxHpBar = sf::RectangleShape(sf::Vector2f(100, 10));
 	maxHpBar.setFillColor(sf::Color::White);
 	maxHpBar.setPosition(sf::Vector2f(position.x + 10, position.y - 20));
-
-	
 	
 }
 
@@ -48,10 +49,10 @@ Enemy::Enemy(sf::RenderWindow* window, string bubbleTextContent, sf::Vector2f po
 {
 	cout << "Init Enemy" << endl;
 	
+	// set window
 	this->window = window;
 	
-	//cout << bubbleTextContent.length() << endl;
-	// add \n to the 10th character
+	// count the how many lines in the bubbleTextContent to be used in intialise the height of the shape
 	int count = 1;
 	for (int i = 0; i < bubbleTextContent.length(); i++)
 	{
@@ -62,16 +63,17 @@ Enemy::Enemy(sf::RenderWindow* window, string bubbleTextContent, sf::Vector2f po
 		}
 	}
 	
+	// set details
 	this->bubbleTextContent = bubbleTextContent;
-	
 
-	// init sprite and texture
+	// load textures
 	texture.loadFromFile("./res/images/enemy.png");
 	sprite.setTexture(texture);
 	this->position = position;
 	sprite.setPosition(this->position);
 	size = sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height);
 
+	// load font and text
 	font.loadFromFile("./res/font/Symtext.ttf");
 	text.setFont(font);
 	text.setString(this->bubbleTextContent);
@@ -80,7 +82,7 @@ Enemy::Enemy(sf::RenderWindow* window, string bubbleTextContent, sf::Vector2f po
 	text.setPosition(position.x, position.y - 60);
 	text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
 	
-	
+	// set details
 	hp_max = 100;
 	hp = hp_max;
 	jump_height_limit = 100;
@@ -91,7 +93,7 @@ Enemy::Enemy(sf::RenderWindow* window, string bubbleTextContent, sf::Vector2f po
 	isFall = false;
 	isJump = false;
 
-
+	// set shape
 	hpBar = sf::RectangleShape(sf::Vector2f(100, 10));
 	hpBar.setFillColor(sf::Color::Red);
 	hpBar.setPosition(sf::Vector2f(position.x + 10, position.y - 20));
@@ -115,25 +117,25 @@ Enemy::~Enemy()
 
 void Enemy::update()
 {
-	//cout << position.x << position.y << endl;
-	//sprite.setPosition(position);
-	//sprite.setPosition(sprite.getPosition().x -2, position.y);
-	//sprite.setPosition(sf::Vector2f(1080 - sprite.getLocalBounds().width, 567 - sprite.getLocalBounds().height));
+	// update sprite position
 	position.x -=velocity;
 	sprite.setPosition(position);
+	
+	// update text position
 	textBubble.setPosition(position.x, position.y - 60);
 	text.setPosition(position.x, position.y - 60);
+	
+	// update hp bar position
 	maxHpBar.setPosition(sf::Vector2f(position.x + 10, position.y - 20));
 	hpBar.setPosition(sf::Vector2f(position.x + 10, position.y - 20));
 	
+	// update hp bar size
 	hpBar.setSize(sf::Vector2f((hp / hp_max)*100, 10));
-	//sprite.move(-0.1, 0);
 }
 
 void Enemy::render()
 {
 	update();
-	//cout << sprite.getLocalBounds().width << endl;
 	window->draw(textBubble);
 	window->draw(text);
 	window->draw(sprite);

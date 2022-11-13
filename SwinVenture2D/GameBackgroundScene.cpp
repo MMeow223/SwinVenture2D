@@ -3,10 +3,16 @@
 
 GameBackgroundScene::GameBackgroundScene() : Scene()
 {
-	window = nullptr;
+	cout << "Init GameBackgroundScene" << endl;
 	sceneID = "scene_game_intro";
+
+	// nullptr because not use 
+	window = nullptr;
+
+	// init book
 	book = new Book(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/bookcover-background.png");
 
+	// load texture
 	texture.loadFromFile("./res/images/bookcover-background.png");
 	sprite.setTexture(texture);
 	sprite.setPosition(sf::Vector2f(1080 / 2 - sprite.getLocalBounds().width / 2, 720 / 2 - sprite.getLocalBounds().height / 2));
@@ -16,16 +22,19 @@ GameBackgroundScene::GameBackgroundScene(sf::RenderWindow* window) : Scene()
 {
 	cout << "GameIntroScene init" << endl;
 	sceneID = "scene_game_intro";
+
+	// set window
 	this->window = window;
 
+	// init book
 	book = new Book(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/bookcover-background.png");
-
-	cout << "START ADDING PAGES at book.cpp" << endl;
 	book->addPageAtBack(new Page(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/backgroundpage1.png"));
 	book->addPageAtBack(new Page(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/backgroundpage2.png"));
 	book->addPageAtBack(new Page(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/backgroundpage3.png"));
 	book->addPageAtBack(new Page(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/backgroundpage4.png"));
 	book->resetToFirstPage();
+
+	// load texture
 	texture.loadFromFile("./res/images/bookcover-background.png");
 	sprite.setTexture(texture);
 	sprite.setPosition(sf::Vector2f(1080 / 2 - sprite.getLocalBounds().width / 2, 720 / 2 - sprite.getLocalBounds().height / 2));

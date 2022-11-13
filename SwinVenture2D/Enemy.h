@@ -7,17 +7,20 @@ class Enemy : public Entity
 {
 
 private:
-	// need to create new sprite and texture, otherwise the getLocalBound() will take from base class
+	// sprite and texture
 	sf::Sprite sprite;
 	sf::Texture texture;
+
+	// text and font
 	sf::Text text;
 	sf::Font font;
-	// two rectangle
+	string bubbleTextContent;
+
+	// shapes
 	sf::RectangleShape hpBar;
 	sf::RectangleShape maxHpBar;
 	sf::RectangleShape textBubble;
-	string bubbleTextContent;
-
+	
 public:
 	Enemy();
 	Enemy(sf::RenderWindow* window, string bubbleTextContent = "...", sf::Vector2f position = sf::Vector2f(0, 0));

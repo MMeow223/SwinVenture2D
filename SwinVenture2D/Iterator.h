@@ -13,12 +13,15 @@ protected:
 	int fIndex;
 
 public:
+	// default constructor
 	Iterator()
 	{
 		fIndex = 0;
 		fLength = 0;
 		fArrayElements = nullptr;
 	}
+	
+	// copy constructor
 	Iterator(DataType* aArray, int aLength, int aStart = 0)
 	{
 		fArrayElements = aArray;
@@ -26,12 +29,13 @@ public:
 		fLength = aLength;
 	}
 
+	// dereference
 	DataType* operator*()
 	{
 		return &fArrayElements[fIndex];
-		//return fArrayElements[fIndex];
 	}
 	
+	// increment
 	Iterator<DataType> operator++(int)
 	{
 		Iterator temp = *this;
@@ -39,6 +43,7 @@ public:
 		return temp;
 	}
 	
+	// decrement
 	Iterator<DataType> operator--(int)
 	{
 		Iterator temp = *this;
@@ -46,47 +51,49 @@ public:
 		return temp;
 	}
 
+	// compare equal
 	bool operator==(Iterator<DataType> aOther)
 	{
 		return (fIndex == aOther.fIndex) && (fArrayElements == aOther.fArrayElements);
 	}
 	
+	// compare inequal
 	bool operator!=(Iterator<DataType> aOther)
 	{
-		//cout << "fIndex: " << fIndex << "aOther.fIndex: " << aOther.fIndex << endl;
 		return (fArrayElements != aOther.fArrayElements) || (fIndex != aOther.fIndex+1);
 	}
 
-	bool operator< (Iterator<DataType> aOther)
-	{
-		return (fArrayElements == aOther.fArrayElements) && (fIndex < aOther.fIndex);
-	}
-	
+	// return begin
 	Iterator<DataType> begin()
 	{
 		return Iterator<DataType>(fArrayElements, fLength);
 	}
 	
+	// return end
 	Iterator<DataType> end()
 	{
 		return Iterator<DataType>(fArrayElements, fLength, fLength - 1);
 	}
 	
+	// return array
 	DataType* getArray()
 	{
 		return fArrayElements;
 	}
 	
+	// return index
 	int getIndex()
 	{
 		return fIndex;
 	}
 	
+	// return length
 	int getLength()
 	{
 		return fLength;
 	}
 	
+	// return current item
 	DataType* getItem(int index)
 	{
 		return &fArrayElements[index];

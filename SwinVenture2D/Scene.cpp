@@ -2,8 +2,9 @@
 
 Scene::Scene()
 {
-	//cout << "Scene init" << endl;
-	//window = new sf::RenderWindow(sf::VideoMode(1080, 720), "SwinVenture2D - Base Scene");
+	cout << "Scene init" << endl;
+	
+	// nullptr because not use
 	window = nullptr;
 	sceneID = "scene_base";
 	
@@ -11,7 +12,9 @@ Scene::Scene()
 
 Scene::Scene(sf::RenderWindow* window)
 {
-	cout << "Game init" << endl;
+	cout << "Scene init" << endl;
+	
+	// set window
 	this->window = window;
 	sceneID = "scene_base";
 }

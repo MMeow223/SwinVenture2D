@@ -3,17 +3,14 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <fstream>
+#include <random>
 #include "Background.h"
-#include <queue>
 #include "CircularDoublyLinkedList.h"
 #include "Scene.h"
 #include "MainMenu.h"
 #include "Entity.h"
 #include "Weapon.h"
 #include "Enemy.h"
-#include "Star.h"
-#include <random>
-#include <stack>
 #include "DoublyLinkedList.h"
 #include "Page.h"
 #include "Book.h"
@@ -24,6 +21,8 @@
 #include "LoseGameScene.h"
 #include "WinGameScene.h"
 #include "AchievementScene.h"
+#include "PopUp.h"
+#include "SinglyLinkedList.h"
 using namespace std;
 class Game : public Scene
 {
@@ -36,7 +35,6 @@ private:
 	LoseGameScene* loseGameScene;
 	WinGameScene* winGameScene;
 	AchievementScene* achievementScene;
-	
 
 	// background
 	Queue<BackgroundLayer*> queue_list[4];
@@ -62,12 +60,15 @@ private:
 	Player* player;
 	Enemy* enemy;
 	Weapon* weapon;
-	stack<Star*> starStack;
-	Book* gameIntroBook;
+	//Book* gameIntroBook;
 	
 	// clock and time
 	sf::Clock* clock;
-	float accumulatedTime;
+	float accumulatedTime = 0;
+
+	//SinglyLinkedList<PopUp*>* popUpList;
+	SinglyLinkedList<PopUp*> popUpList;
+	//Queue<PopUp*> popUpList;
 
 	// game state
 	bool showMainMenu = true;
@@ -79,11 +80,13 @@ private:
 	bool showGameIntroBook = false;
 	bool pause = true;
 	
+	// score and time to show after win game
 	int ememies_killed = 0;
 	string game_score[2] = { "", "" };
 	int score = 0;
 	int time_taken = 0;
 	
+	// achievement condition
 	int use_weapon_attack_count = 0;
 	int use_jump_attack_count = 0;
 	int total_damage_deal = 0;
@@ -99,26 +102,30 @@ public:
 	//getter
 	sf::RenderWindow* getWindow() { return window; }
 	Background* getBackground() { return background; }
-	
-	//setter
-	//void setMoveDistance(float move_distance) { this->move_distance = move_distance; }
 
+	// functions 
 	void checkAchievementMaster();
 	void checkAchievementHopper();
 	void checkAchievementPitcher();
 	void checkAchievementLegend();
 	void checkAchievementFighter();
-
 	void updateAchievement();
-
 	void removeWeapon();
-	//void gameOverCheck();
 	Enemy* createEnemy();
 	void recordScoreToFile();
 	void reset();
 	void handle_event();
+	void updatePopUpList();
+	void handleClock();
 	void update();
-	void clean();
+	void updateWindowBorderColor();
+	void checkSelectedOption();
+	void checkWeaponEnemyCollide();
+	void checkPlayerEnemyCollide();
+	void checkStandOnEnemyHead();
+	void checkJumpAttack();
+	void checkLoseCondition();
+	void checkWinCondition();
 	void render();
 	
 };

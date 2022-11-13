@@ -9,6 +9,7 @@
 #include "Iterator.h"
 using namespace std;
 
+// struct of Achievement details
 struct AchievementDetail
 {
 	string unlock_date;
@@ -18,15 +19,18 @@ class AchievementScene : public Scene
 {
 
 private:
-	sf::Sprite sprite;
-	sf::Texture texture;
+	// achievement arrays
 	Achievement* achievement_list[5];
 	AchievementDetail achievement_status[5];
+	
+	// iterator
 	Achievement** ptr;
-	Achievement* temp;
-
-	// creating the both iterator
 	Iterator<Achievement*>* iter;
+	
+	// sprite and texture
+	sf::Sprite sprite;
+	sf::Texture texture;
+	
 public:
 	AchievementScene();
 	AchievementScene(sf::RenderWindow* window);
@@ -37,6 +41,5 @@ public:
 
 	void update();
 	void render();
-
 };
 

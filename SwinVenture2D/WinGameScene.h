@@ -6,27 +6,21 @@
 class WinGameScene : public Scene
 {
 private:
-	//CircularDoublyLinkedList<Content>* list;
+	// text and font
 	sf::Font font;
 	sf::Text text;
 	sf::Text scoreText;
 	sf::Text timeText;
 	sf::Text mainMenuQuoteText;
+
+	// state for text blinking
 	int textBlink = 255;
 	int blinkspeed = 5;
 	bool textBlinkUp = true;
 
-	//float sizex = 700;
-	//float sizey = 300;
-
-
-
-	//sf::RectangleShape rectangle;
+	// sprite and texture
 	sf::Texture texture;
 	sf::Sprite sprite;
-	// sprite and texture
-	//sf::Texture gameLogoTexture;
-	//sf::Sprite gameLogoSprite;
 public:
 	WinGameScene();
 	WinGameScene(sf::RenderWindow* window);
@@ -35,15 +29,12 @@ public:
 	//getter
 	sf::RenderWindow* getWindow() { return window; }
 	
-	//CircularDoublyLinkedList<Content>* getList() { return list; }
-
 	//setter
 	void setQuoteText(string quoteText) { mainMenuQuoteText.setString(quoteText); }
 	void setTimeText(string newtext) { timeText.setString("Time Taken : " + newtext + " (sec)"); }
 	void setScoreText(string newtext) { scoreText.setString("Score : " + newtext ); }
 	
-	
-	//void setList(CircularDoublyLinkedList<Content>* list) { this->list = list; }
+	// functions
 	void reset();
 	void update() override;
 	void clean();

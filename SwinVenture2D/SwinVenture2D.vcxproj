@@ -143,12 +143,11 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameBackgroundScene.cpp" />
     <ClCompile Include="GameIntroScene.cpp" />
-    <ClCompile Include="Iterator.cpp" />
     <ClCompile Include="LoseGameScene.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Page.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PopUp.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Weapon.cpp" />
@@ -174,14 +173,16 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Page.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PopUp.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SinglyLinkedList.h" />
     <ClInclude Include="Stack.h" />
-    <ClInclude Include="Star.h" />
-    <ClInclude Include="StarContainer.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WinGameScene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

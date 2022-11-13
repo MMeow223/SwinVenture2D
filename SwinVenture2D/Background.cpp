@@ -1,9 +1,11 @@
 #include "Background.h"
 
-Background::Background()
+Background::Background(sf::RenderWindow* window)
 {
 	cout << "Background init" << endl;
-	
+
+	this->window = window;
+	// initialise background layers
 	layer_one_queue = Queue<BackgroundLayer*>(new BackgroundLayer("./res/images/background-layer1.png", 1, sf::Vector2f(0.0f, 0.f)));
 	layer_one_queue.push(new BackgroundLayer("./res/images/background-layer1.png", 1, sf::Vector2f(2160, 0.f)));
 	
@@ -24,7 +26,7 @@ Background::~Background()
 
 void Background::AutoLoop()
 {
-
+	// move the background in each layer
 	if (autoloop) {
 		// layer four
 		layer_four_queue.front()->setPosition(
@@ -84,6 +86,9 @@ void Background::AutoLoop()
 void Background::update()
 {
 	AutoLoop();
+
+	// check if the background has moved off the screen
+	// if yes, add a new one and remove the old one so that the backgorund is endless
 	
 	// layer one
 	if (layer_one_queue.front()->getPosition().x < -2160) {
@@ -123,7 +128,7 @@ void Background::update()
 	}
 }
 
-void Background::render(sf::RenderWindow* window)
+void Background::render()
 {
 	update();
 	// layer one

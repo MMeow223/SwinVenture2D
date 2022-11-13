@@ -3,31 +3,27 @@
 class Achievement : public Object
 {
 private:
+	// achievement detail
 	string name;
 	string description;
-	bool isUnlocked;
-	bool isHover;
 	
+	// text and font
 	sf::Text achievementDescriptionText;
 	sf::Font font;
 
+	// shape
 	sf::RectangleShape achievementDescriptionBackground;
 
+	// texture and sprite
 	sf::Texture lockTexture;
 	sf::Sprite lockSprite;
 	
+	// state
+	bool isUnlocked;
+	bool isHover;
 public:
 	Achievement();
-	Achievement(sf::RenderWindow* window,
-		sf::Vector2f position,
-		string filename,
-		string name,
-		string description
-	);
-	
-	//Object(sf::RenderWindow* window, sf::Vector2f position, sf::Vector2f size, float velocity, string filepath);
-
-	
+	Achievement(sf::RenderWindow* window,sf::Vector2f position,string filename,string name,string description);
 	~Achievement();
 	
 	// getter
@@ -42,10 +38,10 @@ public:
 	void setIsUnlocked(bool isUnlocked) { this->isUnlocked = isUnlocked; }
 	void setIsHover(bool isHover) { this->isHover = isHover; }
 	
+	void checkIsHover(sf::Vector2i& mousePosition);
+
 	// functions
 	void update();
 	void render();
-	
-	
 };
 

@@ -5,11 +5,13 @@
 class Book: public Object
 {
 private:
+	// doubly linked list that store pages
 	DoublyLinkedList<Page*> gameIntroPages;
 	DoublyLinkedList<Page*>* currentPage;
+	
+	// texture and sprite
 	sf::Texture bookRingTexture;
 	sf::Sprite bookRingSprite;
-
 
 public:
 	Book();

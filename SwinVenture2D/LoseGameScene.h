@@ -6,25 +6,21 @@
 class LoseGameScene : public Scene
 {
 private:
-	//CircularDoublyLinkedList<Content>* list;
+
+	// text and font
 	sf::Font font;
 	sf::Text text;
 	sf::Text mainMenuQuoteText;
+	
+	// sprite and texture
+	sf::Texture texture;
+	sf::Sprite sprite;
+	
+	// state for text blinking
 	int textBlink = 255;
 	int blinkspeed = 5;
 	bool textBlinkUp = true;
 	
-	//float sizex = 700;
-	//float sizey = 300;
-	
-	
-
-	//sf::RectangleShape rectangle;
-	sf::Texture texture;
-	sf::Sprite sprite;
-	// sprite and texture
-	//sf::Texture gameLogoTexture;
-	//sf::Sprite gameLogoSprite;
 public:
 	LoseGameScene();
 	LoseGameScene(sf::RenderWindow* window);
@@ -32,10 +28,8 @@ public:
 
 	//getter
 	sf::RenderWindow* getWindow() { return window; }
-	//CircularDoublyLinkedList<Content>* getList() { return list; }
 
-	//setter
-	//void setList(CircularDoublyLinkedList<Content>* list) { this->list = list; }
+	// functions
 	void reset();
 	void update() override;
 	void clean();

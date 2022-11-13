@@ -17,19 +17,23 @@ protected:
 
 public:
 	static Node NIL;
-	// Constructor
+	// default constructor
 	LinkedList()
 	{
 		fValue = DataType();
 		fNext = &NIL;
 		fPrevious = &NIL;
 	}
+	
+	// copy constructor
 	LinkedList(DataType value)
 	{
 		fValue = value;
 		fNext = &NIL;
 		fPrevious = &NIL;
 	}
+	
+	// prepend node
 	void prepend(DataType value)
 	{
 		LinkedList* newNode = new LinkedList(value);
@@ -38,6 +42,8 @@ public:
 		this->fPrevious->fNext = newNode;
 		this->fPrevious = newNode;
 	}
+
+	// append node
 	void append(DataType value)
 	{
 		LinkedList* newNode = new LinkedList(value);
@@ -46,6 +52,8 @@ public:
 		this->fNext->fPrevious = newNode;
 		this->fNext = newNode;
 	}
+
+	// remove node
 	void remove()
 	{
 		if (fNext == &NIL)
@@ -58,14 +66,17 @@ public:
 		}
 		else
 		{
-			fPrevious->fNext = fNext;	  // previous->next
-			fNext->fPrevious = fPrevious; // previous<-next
+			fPrevious->fNext = fNext;
+			fNext->fPrevious = fPrevious;
 		}
 	}
+
+	// get next node
 	void setValue(DataType value)
 	{
 		fValue = value;
 	}
+	
 	// getters
 	DataType getValue() {
 		return fValue;

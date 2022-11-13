@@ -15,6 +15,7 @@ private:
 	int size = 0;
 
 public:
+	// default constructor
 	Stack() {
 
 		stack = new LinkedList<DataType>();
@@ -22,6 +23,7 @@ public:
 		bottom_value = stack->getValue();
 		size++;
 	};
+	// copy constructor
 	Stack(DataType value) {
 
 		stack = new LinkedList<DataType>(value);
@@ -29,9 +31,10 @@ public:
 		bottom_value = stack->getValue();
 		size++;
 	};
-
-	~Stack() {
-	};
+	// destructor
+	~Stack() {};
+	
+	// push by pass value and create in linked list
 	void push(DataType value) {
 		if (stack == &LinkedList<DataType>::NIL) {
 			stack = new LinkedList<DataType>(value);
@@ -45,6 +48,7 @@ public:
 		}
 		size++;
 	};
+	// pop to remove item
 	void pop()
 	{
 		if (size == 1) {
@@ -59,6 +63,8 @@ public:
 		}
 		size--;
 	};
+	
+	// getter
 	bool empty() {
 		return size == 0;
 	};
@@ -72,7 +78,6 @@ public:
 		}
 		else
 			return top_value;
-		//return top_value;
 	};
 	DataType bottom() {
 		if (bottom_value == NULL) {
@@ -81,6 +86,5 @@ public:
 		}
 		else
 			return bottom_value;
-		//return bottom_value;
 	};
 };

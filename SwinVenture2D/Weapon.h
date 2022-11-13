@@ -7,10 +7,12 @@ using namespace std;
 class Weapon : public Object
 {
 private:
+	// weapon details
 	float max_distance;
 	float damage;
 	float count = 0;
 
+	// state for throwing weapon 
 	bool isFinish = false;
 
 public:
@@ -27,6 +29,7 @@ public:
 	void setDamage(float damage) { this->damage = damage; }
 	void setIsFinish(bool isFinish) { this->isFinish = isFinish; }
 	
+	// functions
 	void update();
 };
 

@@ -7,12 +7,18 @@ using namespace std;
 class Entity
 {
 protected:
+	// window
 	sf::RenderWindow* window;
+	
+	// position and size
 	sf::Vector2f position;
 	sf::Vector2f size;
+	
+	// sprite and texture
 	sf::Texture texture;
 	sf::Sprite sprite;
 	
+	// entity details
 	float damage;
 	float hp_max;
 	float hp;
@@ -23,6 +29,8 @@ protected:
 	float jumpVelocity;
 	float gravity;
 	float terminalSpeed;
+
+	// state
 	bool isFall;
 	bool isJump;
 	bool standOnEnemyHead;
@@ -31,10 +39,10 @@ public:
 	Entity();
 	Entity(sf::RenderWindow* window);
 	~Entity();
+	
 	//getter
 	sf::RenderWindow* getWindow() { return window; }
 	sf::Vector2f getPosition() { return position; }
-	
 	float getInitVelocity() { return init_velocity; }
 	float getVelocity() { return velocity; }
 	float getInitJumpVelocity() { return initJumpVelocity; }
@@ -72,7 +80,7 @@ public:
 	void setDamage(float damage) { this->damage = damage; }
 	void setStandOnEnemyHead(bool standOnEnemyHead) { this->standOnEnemyHead = standOnEnemyHead; }
 	
-	
+	// functions
 	void fall();
 	void jump();
 	bool onGround();

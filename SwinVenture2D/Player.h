@@ -10,6 +10,5 @@ public:
 	Player() : Entity() {}
 	Player(sf::RenderWindow* window) : Entity(window) {}
 	~Player() {};
-
 };
 

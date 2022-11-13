@@ -7,7 +7,6 @@ AchievementScene::AchievementScene() : Scene()
 	sceneID = "scene_achievement";
 	window = nullptr;
 	book = nullptr;
-
 	texture.loadFromFile("./res/images/bookcover-achievement.png");
 	sprite.setTexture(texture);
 	sprite.setPosition(sf::Vector2f(1080 / 2 - sprite.getLocalBounds().width / 2, 720 / 2 - sprite.getLocalBounds().height / 2));
@@ -18,13 +17,15 @@ AchievementScene::AchievementScene(sf::RenderWindow* window) : Scene(window)
 	cout << "AchievementScene init" << endl;
 	sceneID = "scene_achievement";
 
+	// nullptr because doesnt need it
 	book = nullptr;
-	//book = new Book(window, sf::Vector2f(0, 0), sf::Vector2f(0, 0), 0, "./res/images/bookcover-background.png");
 
+	// load background texture
 	texture.loadFromFile("./res/images/bookcover-achievement.png");
 	sprite.setTexture(texture);
 	sprite.setPosition(sf::Vector2f(1080 / 2 - sprite.getLocalBounds().width / 2, 720 / 2 - sprite.getLocalBounds().height / 2));
 
+	// initialise achievement list
 	achievement_list[0] = new Achievement(
 		window,
 		sf::Vector2f(150, 150),
@@ -59,18 +60,11 @@ AchievementScene::AchievementScene(sf::RenderWindow* window) : Scene(window)
 		"Fighter",
 		"Kill enemy in less than one second.");
 
+	// initialise iterator
 	ptr = achievement_list;
-	// creating the both iterator
 	iter = new Iterator<Achievement*>(ptr, 5);
 
-
-	temp = new Achievement(
-		window,
-		sf::Vector2f(0, 0),
-		"./res/images/achievement-master.png",
-		"Master",
-		"Win the game without taking any damage.");
-
+	// update achievment details by loading them from file
 	loadAchievementFromFile();
 	updateAchievementStatus();
 }
@@ -81,57 +75,29 @@ AchievementScene::~AchievementScene()
 
 void AchievementScene::update()
 {
-	//book->update();
 }
 
 void AchievementScene::render()
 {
-	// print the curren tmouse position
-	//cout << "Mouse Position: " << sf::Mouse::getPosition(*window).x << ", " << sf::Mouse::getPosition(*window).y << endl;
-	
-	//temp->render();
-	//oneDimensionArray[0]->render();
-	//oneDimensionArray[1]->render();
-	//oneDimensionArray[2]->render();
-	
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	oneDimensionArray[i]->render();
-	//}
-
-	//(*(iter->begin()))->render();
-
-	//iter->getItem(0)->render();
+	// render the background
 	window->draw(sprite);
-
+	
+	// render each of the achievement
 	for (Iterator<Achievement*> i = *iter; i != i.end(); i++) {
-		//cout << i.getIndex() << endl;
-		//cout << (**i)->getDescription() << endl;
 		(**i)->render();
 	}
-
-	//for (Iterator<Achievement*> i = (*iter).end(); i != i.begin(); i--) {
-	//	cout << i.getIndex() << endl;
-	//	//cout << (**i)->getDescription() << endl;
-	//	(**i)->render();
-	//}
-	//window->draw(sprite);
-	//book->render();
 }
 
 void AchievementScene::loadAchievementFromFile()
 {
-	// read from file
+	// read the achievement details from file and store them in the achievement_status array
 	ifstream fr("./data/achievement.txt", std::ifstream::in);
 	if (fr.is_open()) {
 		string line;
 		for (int i = 0; i < 5; i++) {
 			getline(fr, line);
-
 			string date = line.substr(0, line.find(","));
 			string status = line.substr(line.find(",")+1, line.find(",") + 2);
-			cout << date << " | " << status << endl;
-			
 			achievement_status[i].unlock_date = date;
 			achievement_status[i].unlock_status = status == "1";
 		}
@@ -144,6 +110,7 @@ void AchievementScene::loadAchievementFromFile()
 
 void AchievementScene::updateAchievementStatus()
 {
+	// update the achievement status by comparing the achievement_status array with the achievement_list array
 	for (int i = 0; i < 5; i++) {
 		if (achievement_status[i].unlock_status) {
 			achievement_list[i]->setIsUnlocked(true);

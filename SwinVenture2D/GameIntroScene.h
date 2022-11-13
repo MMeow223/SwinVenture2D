@@ -5,14 +5,12 @@
 #include "Scene.h"
 #include "Book.h"
 
-//#include "Background.h"
-//#include <queue>
-//#include "CircularDoublyLinkedList.h"
 using namespace std;
 class GameIntroScene : public Scene
 {
 
 private:
+	// sprite and texture
 	sf::Sprite sprite;
 	sf::Texture texture;
 
@@ -21,13 +19,8 @@ public:
 	GameIntroScene(sf::RenderWindow* window);
 	~GameIntroScene();
 
-	//getter
-	//sf::RenderWindow* getWindow() { return window; }
-	//Book* getGameIntroBook() { return gameIntroBook; }
-	
-
+	// functions
 	void update();
 	void render();
-
 };
 

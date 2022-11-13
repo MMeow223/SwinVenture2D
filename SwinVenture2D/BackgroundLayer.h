@@ -2,16 +2,19 @@
 #include <iostream>
 #include <string>
 #include <queue>
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 class BackgroundLayer
 {
 private:
+	// images, texture and sprite
 	string image_path;
-	float speed;
 	sf::Texture texture;
 	sf::Sprite sprite;
+	
+	// background detail
+	float speed;
 	sf::Vector2f position;
 
 public:

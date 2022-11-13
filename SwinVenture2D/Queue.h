@@ -15,6 +15,7 @@ private:
 	int size = 0;
 	
 public:
+	// default constructor
 	Queue() {
 		
 		queue = new LinkedList<DataType>();
@@ -22,6 +23,7 @@ public:
 		back_value = queue->getValue();
 		size++;
 	};
+	// copy constructor
 	Queue(DataType value) {
 
 		queue = new LinkedList<DataType>(value);
@@ -30,10 +32,12 @@ public:
 		size++;
 	};
 	
+	// destructor
 	~Queue() {
 	};
+
+	// enqueue
 	void push(DataType value) {
-		// add at the back
 		if (queue == &LinkedList<DataType>::NIL) {
 			queue = new LinkedList<DataType>(value);
 			front_value = queue->getValue();
@@ -45,16 +49,17 @@ public:
 				if (i->getNext() == &LinkedList<DataType>::NIL) {
 					i->append(value);
 					back_value = value;
-					size++;
 					break;
 				}
 			}
 		}
+		size++;
 	};
+
+	// dequeue
 	void pop()
 	{
 		if (size == 1) {
-			//delete queue;
 			queue = &LinkedList<DataType>::NIL;
 			front_value = NULL;
 			back_value = NULL;
@@ -62,13 +67,13 @@ public:
 		else {
 			LinkedList<DataType>* temp = queue->getNext();
 			front_value = temp->getValue();
-			//temp = queue->getNext();
 			queue->remove();
 			queue = temp;
-			//queue = queue->getNext();
 		}
 			size--;
 	};
+	
+	// getter
 	bool empty() {
 		return size == 0;
 	};
@@ -82,7 +87,6 @@ public:
 		}
 		else
 			return front_value;
-		//return front_value;
 	};
 	DataType back() {
 		if (back_value == NULL) {
@@ -91,6 +95,5 @@ public:
 		}
 		else
 			return back_value;
-		//return back_value;
 	};
 };
